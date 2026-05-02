@@ -1,5 +1,5 @@
 /* Copyright 2023 Dual Tachyon
-#include "../font_cn.h"
+
  * https://github.com/DualTachyon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@
 #include "ui/inputbox.h"
 #include "misc.h"
 #include "settings.h"
+#include "../font_cn.h"
 
 
 void UI_GenerateChannelString(char *pString, const uint16_t Channel)
@@ -430,8 +431,6 @@ void UI_PrintStringSmallCN(const char *pString, uint8_t Start, uint8_t End, uint
 {
     const char *p = pString;
     uint8_t x = Start;
-    uint8_t last_valid_x = Start;
-    
     // Calculate centering offset for Chinese text
     // Count display width in pixels
     uint16_t total_width = 0;

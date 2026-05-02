@@ -194,7 +194,7 @@ const t_menu_item MenuList[] =
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
-const char gSubMenu_TXP[][6] =
+const char gSubMenu_TXP[][8] =
 {
     "用户",
     "低1",
@@ -213,13 +213,13 @@ const char gSubMenu_SFT_D[][4] =
     "-"
 };
 
-const char gSubMenu_W_N[][7] =
+const char gSubMenu_W_N[][8] =
 {
     "宽带",
     "窄带"
 };
 
-const char gSubMenu_OFF_ON[][4] =
+const char gSubMenu_OFF_ON[][5] =
 {
     "关",
     "ON"
@@ -239,7 +239,7 @@ const char* const gSubMenu_RXMode[] =
 };
 
 #ifdef ENABLE_VOICE
-    const char gSubMenu_VOICE[][4] =
+    const char gSubMenu_VOICE[][7] =
     {
         "关",
         "中文",
@@ -256,7 +256,7 @@ const char* const gSubMenu_MDF[] =
 };
 
 #ifdef ENABLE_ALARM
-    const char gSubMenu_AL_MOD[][5] =
+    const char gSubMenu_AL_MOD[][7] =
     {
         "本机",
         "音调"
@@ -282,7 +282,7 @@ const char* const gSubMenu_PTT_ID[] =
     "阿波罗"
 };
 
-const char gSubMenu_PONMSG[][8] =
+const char gSubMenu_PONMSG[][10] =
 {
 #ifdef ENABLE_FEAT_F4HWN
     "全部",
@@ -295,14 +295,14 @@ const char gSubMenu_PONMSG[][8] =
     "无"
 };
 
-const char gSubMenu_ROGER[][6] =
+const char gSubMenu_ROGER[][7] =
 {
     "关",
     "通毕",
     "MDC"
 };
 
-const char gSubMenu_RESET[][4] =
+const char gSubMenu_RESET[][7] =
 {
     "VFO",
     "全部"
@@ -329,7 +329,7 @@ const char * const gSubMenu_F_LOCK[] =
     "解锁",
 };
 
-const char gSubMenu_RX_TX[][6] =
+const char gSubMenu_RX_TX[][7] =
 {
     "关",
     "发射",
@@ -337,7 +337,7 @@ const char gSubMenu_RX_TX[][6] =
     "收发"
 };
 
-const char gSubMenu_BAT_TXT[][8] =
+const char gSubMenu_BAT_TXT[][10] =
 {
     "无",
     "电压",
@@ -415,7 +415,7 @@ const char gSubMenu_SCRAMBLER[][7] =
     };
 
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
-        const char gSubMenu_SET_AUD_FM[][6] =
+        const char gSubMenu_SET_AUD_FM[][8] =
         {
             "平直",
             "清晰",
@@ -424,7 +424,7 @@ const char gSubMenu_SCRAMBLER[][7] =
             "最大"
         };
 
-        const char gSubMenu_SET_AUD_AM[][6] =
+        const char gSubMenu_SET_AUD_AM[][7] =
         {
             "锐利",
             "原厂",
