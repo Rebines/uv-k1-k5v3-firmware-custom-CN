@@ -26,6 +26,9 @@
 #include "settings.h"
 #include "../font_cn.h"
 
+// Forward declaration
+void UI_PrintStringSmallCN(const char *pString, uint8_t Start, uint8_t End, uint8_t Line);
+
 
 void UI_GenerateChannelString(char *pString, const uint16_t Channel)
 {
@@ -477,7 +480,7 @@ void UI_PrintStringSmallCN(const char *pString, uint8_t Start, uint8_t End, uint
             uint16_t code = ((p[0] & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
             
             // Binary search
-            int lo = 0, hi = FONT_CN_N - 1;
+            int lo = 0, hi = FONT_CN_COUNT - 1;
             const uint8_t *found = NULL;
             while (lo <= hi) {
                 int mid = (lo + hi) / 2;
@@ -492,8 +495,8 @@ void UI_PrintStringSmallCN(const char *pString, uint8_t Start, uint8_t End, uint
             }
             
             if (found) {
-                memcpy(gFrameBuffer[Line] + x, found, FONT_CN_W);
-                x += FONT_CN_W + 1;
+                memcpy(gFrameBuffer[Line] + x, found, FONT_CN_WIDTH);
+                x += FONT_CN_WIDTH + 1;
             }
             p += 3;
         } else if ((*p & 0xE0) == 0xC0) {

@@ -1,17 +1,17 @@
 /* Auto-generated 8x8 Chinese font for UV-K1/K5 Firmware */
 /* Generated for Iroha by Yachiyo */
-#ifndef FONT_CN_H
-#define FONT_CN_H
+#ifndef FONT_CN_HEADER_H
+#define FONT_CN_HEADER_H
 
 #include <stdint.h>
 #include <string.h>
 
-#define FONT_CN_W 8
-#define FONT_CN_H 8
-#define FONT_CN_N 89
+#define FONT_CN_WIDTH  8
+#define FONT_CN_HEIGHT 8
+#define FONT_CN_COUNT  89
 
 /* Chinese character Unicode code points */
-static const uint16_t gFontCN_Unicode[FONT_CN_N] = {
+static const uint16_t gFontCN_Unicode[FONT_CN_COUNT] = {
     0x4E0A,  // 上
     0x4E0B,  // 下
     0x4E24,  // 两
@@ -104,7 +104,7 @@ static const uint16_t gFontCN_Unicode[FONT_CN_N] = {
 };
 
 /* 8x8 bitmap data (column-major) */
-static const uint8_t gFontCN_Data[FONT_CN_N][FONT_CN_W] = {
+static const uint8_t gFontCN_Data[FONT_CN_COUNT][FONT_CN_WIDTH] = {
     {0x00, 0x20, 0x20, 0x3F, 0x24, 0x24, 0x24, 0x00},  // 上
     {0x00, 0x01, 0x01, 0x7F, 0x09, 0x09, 0x01, 0x00},  // 下
     {0x01, 0x7D, 0x15, 0x0B, 0x1F, 0x55, 0x7D, 0x01},  // 两
@@ -197,7 +197,7 @@ static const uint8_t gFontCN_Data[FONT_CN_N][FONT_CN_W] = {
 };
 
 /* 8x8 ASCII font (chars 0x20-0x7E, index=code-0x20) */
-static const uint8_t gFontCN_ASCII[95][FONT_CN_W] = {
+static const uint8_t gFontCN_ASCII[95][FONT_CN_WIDTH] = {
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},  //  
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // !
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // '"'
@@ -258,7 +258,7 @@ static const uint8_t gFontCN_ASCII[95][FONT_CN_W] = {
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // Y
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // Z
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // [
-    {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // \\
+    {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // backslash
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // ]
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // ^
     {0x00, 0x00, 0x7E, 0x42, 0x42, 0x7E, 0x00, 0x00},  // _
@@ -296,57 +296,4 @@ static const uint8_t gFontCN_ASCII[95][FONT_CN_W] = {
 };
 
 
-/* Print a Chinese-capable string.
- * Detects UTF-8 CJK (0xE0+) and renders in 8x8 font.
- * ASCII chars render in 8x8 ASCII font.
- * Returns number of pixels consumed.
- */
-static int UI_PrintCNString(uint8_t *fb, int x, const char *str) {
-    const char *p = str;
-    int orig_x = x;
-    
-    while (*p && x < 128) {
-        if ((*p & 0x80) == 0) {
-            // ASCII
-            uint8_t idx = (uint8_t)*p - 0x20;
-            if (idx < 95) {
-                memcpy(fb + x, gFontCN_ASCII[idx], FONT_CN_W);
-                x += FONT_CN_W + 1;
-            }
-            p++;
-        } else if ((*p & 0xE0) == 0xC0) {
-            // 2-byte UTF-8 (not CJK)
-            p += 2;
-        } else if ((*p & 0xF0) == 0xE0) {
-            // 3-byte UTF-8 CJK
-            uint16_t code = ((p[0] & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
-            
-            // Binary search
-            int lo = 0, hi = FONT_CN_N - 1;
-            const uint8_t *found = NULL;
-            while (lo <= hi) {
-                int mid = (lo + hi) / 2;
-                if (gFontCN_Unicode[mid] == code) {
-                    found = gFontCN_Data[mid];
-                    break;
-                } else if (gFontCN_Unicode[mid] < code) {
-                    lo = mid + 1;
-                } else {
-                    hi = mid - 1;
-                }
-            }
-            
-            if (found) {
-                memcpy(fb + x, found, FONT_CN_W);
-                x += FONT_CN_W + 1;
-            }
-            p += 3;
-        } else {
-            p++;  // skip invalid
-        }
-    }
-    
-    return x - orig_x;
-}
-
-#endif
+#endif  /* FONT_CN_HEADER_H */
