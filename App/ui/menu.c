@@ -196,32 +196,32 @@ const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
 const char gSubMenu_TXP[][6] =
 {
-    "USER",
-    "LOW 1",
-    "LOW 2",
-    "LOW 3",
-    "LOW 4",
-    "LOW 5",
-    "MID",
-    "HIGH"
+    "用户",
+    "低1",
+    "低2",
+    "低3",
+    "低4",
+    "低5",
+    "中",
+    "高"
 };
 
 const char gSubMenu_SFT_D[][4] =
 {
-    "OFF",
+    "关",
     "+",
     "-"
 };
 
 const char gSubMenu_W_N[][7] =
 {
-    "WIDE",
-    "NARROW"
+    "宽带",
+    "窄带"
 };
 
 const char gSubMenu_OFF_ON[][4] =
 {
-    "OFF",
+    "关",
     "ON"
 };
 
@@ -232,116 +232,116 @@ const char gSubMenu_NA[4] =
 
 const char* const gSubMenu_RXMode[] =
 {
-    "MAIN\nONLY",       // TX and RX on main only
-    "DUAL RX\nRESPOND", // Watch both and respond
-    "CROSS\nBAND",      // TX on main, RX on secondary
-    "MAIN TX\nDUAL RX"  // always TX on main, but RX on both
+    "主单",       // TX and RX on main only
+    "双应", // Watch both and respond
+    "跨段",      // TX on main, RX on secondary
+    "主发\n双收"  // always TX on main, but RX on both
 };
 
 #ifdef ENABLE_VOICE
     const char gSubMenu_VOICE[][4] =
     {
-        "OFF",
-        "CHI",
-        "ENG"
+        "关",
+        "中文",
+        "英文"
     };
 #endif
 
 const char* const gSubMenu_MDF[] =
 {
-    "FREQ",
-    "CHANNEL\nNUMBER",
-    "NAME",
-    "NAME\n+\nFREQ"
+    "频率",
+    "信道号",
+    "名称",
+    "名+频"
 };
 
 #ifdef ENABLE_ALARM
     const char gSubMenu_AL_MOD[][5] =
     {
-        "SITE",
-        "TONE"
+        "本机",
+        "音调"
     };
 #endif
 
 #ifdef ENABLE_DTMF_CALLING
 const char gSubMenu_D_RSP[][11] =
 {
-    "DO\nNOTHING",
-    "RING",
-    "REPLY",
-    "BOTH"
+    "无动作",
+    "响铃",
+    "回复",
+    "两者"
 };
 #endif
 
 const char* const gSubMenu_PTT_ID[] =
 {
-    "OFF",
-    "UP CODE",
-    "DOWN CODE",
-    "UP+DOWN\nCODE",
-    "APOLLO\nQUINDAR"
+    "关",
+    "上行码",
+    "下行码",
+    "上下码",
+    "阿波罗"
 };
 
 const char gSubMenu_PONMSG[][8] =
 {
 #ifdef ENABLE_FEAT_F4HWN
-    "ALL",
-    "SOUND",
+    "全部",
+    "声音",
 #else
-    "FULL",
+    "全部",
 #endif
-    "MESSAGE",
-    "VOLTAGE",
-    "NONE"
+    "信息",
+    "电压",
+    "无"
 };
 
 const char gSubMenu_ROGER[][6] =
 {
-    "OFF",
-    "ROGER",
+    "关",
+    "通毕",
     "MDC"
 };
 
 const char gSubMenu_RESET[][4] =
 {
     "VFO",
-    "ALL"
+    "全部"
 };
 
 const char * const gSubMenu_F_LOCK[] =
 {
-    "DEFAULT+\n137-174\n400-470",
-    "FCC HAM\n144-148\n420-450",
+    "默认",
+    "FCC段",
 #ifdef ENABLE_FEAT_F4HWN_CA
-    "CA HAM\n144-148\n430-450",
+    "CA段",
 #endif
-    "CE HAM\n144-146\n430-440",
-    "GB HAM\n144-148\n430-440",
-    "137-174\n400-430",
-    "137-174\n400-438",
+    "CE段",
+    "GB段",
+    "频段A",
+    "频段B",
 #ifdef ENABLE_FEAT_F4HWN_PMR
     "PMR 446",
 #endif
 #ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
     "GMRS\nFRS\nMURS",
 #endif
-    "DISABLE\nALL",
-    "UNLOCK\nALL",
+    "禁用",
+    "解锁",
 };
 
 const char gSubMenu_RX_TX[][6] =
 {
-    "OFF",
-    "TX",
-    "RX",
-    "TX/RX"
+    "关",
+    "发射",
+    "接收",
+    "收发"
 };
 
 const char gSubMenu_BAT_TXT[][8] =
 {
-    "NONE",
-    "VOLTAGE",
-    "PERCENT"
+    "无",
+    "电压",
+    "百分比"
 };
 
 const char gSubMenu_BATTYP[][12] =
@@ -355,14 +355,14 @@ const char gSubMenu_BATTYP[][12] =
 
 const char gSubMenu_SET_NAV[][17] =
 {
-    "LEFT\nRIGHT\nUV-K1",
-    "UP\nDOWN\nUV-K5(8)",
+    "左右K1",
+    "上下K5",
 };
 
 #ifndef ENABLE_FEAT_F4HWN
 const char gSubMenu_SCRAMBLER[][7] =
 {
-    "OFF",
+    "关",
     "2600Hz",
     "2700Hz",
     "2800Hz",
@@ -390,53 +390,53 @@ const char gSubMenu_SCRAMBLER[][7] =
 
     const char gSubMenu_SET_PTT[][8] =
     {
-        "CLASSIC",
-        "ONEPUSH"
+        "经典",
+        "单按"
     };
 
     const char gSubMenu_SET_TOT[][7] =  // Use by SET_EOT too
     {
-        "OFF",
-        "SOUND",
-        "VISUAL",
-        "ALL"
+        "关",
+        "声音",
+        "视觉",
+        "全部"
     };
 
     const char gSubMenu_SET_LCK[][9] =
     {
-        "KEYS",
-        "KEYS+PTT"
+        "按键",
+        "键+PTT"
     };
 
     const char gSubMenu_SET_MET[][8] =
     {
-        "TINY",
-        "CLASSIC"
+        "迷你",
+        "经典"
     };
 
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
         const char gSubMenu_SET_AUD_FM[][6] =
         {
-            "FLAT",
-            "CLEAN",
-            "MID",
-            "BOOST",
-            "MAX"
+            "平直",
+            "清晰",
+            "中",
+            "增强",
+            "最大"
         };
 
         const char gSubMenu_SET_AUD_AM[][6] =
         {
-            "SHARP",
-            "STOCK",
-            "OPEN"
+            "锐利",
+            "原厂",
+            "开放"
         };
     #endif
 
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
         const char gSubMenu_SET_NFM[][9] =
         {
-            "NARROW",
-            "NARROWER"
+            "窄带",
+            "超窄"
         };
     #endif
 
@@ -454,7 +454,7 @@ const char gSubMenu_SCRAMBLER[][7] =
 
 const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 {
-    {"NONE",            ACTION_OPT_NONE},
+    {"无",            ACTION_OPT_NONE},
 #ifdef ENABLE_FLASHLIGHT
     {"FLASH\nLIGHT",    ACTION_OPT_FLASHLIGHT},
 #endif
@@ -1058,9 +1058,9 @@ void UI_DisplayMenu(void)
         case MENU_LIST_CH:
         case MENU_S_LIST:
             if (gSubMenuSelection == MR_CHANNELS_LIST + 1)
-                strcpy(String, "ALL");
+                strcpy(String, "全部");
             else if (gSubMenuSelection == 0 && UI_MENU_GetCurrentMenuId() == MENU_LIST_CH)
-                strcpy(String, "OFF");
+                strcpy(String, "关");
             else {
                 const char *name = gListName[gSubMenuSelection - 1];
                 

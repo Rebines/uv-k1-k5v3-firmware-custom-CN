@@ -1,4 +1,5 @@
 /* Copyright 2023 Dual Tachyon
+#include "../font_cn.h"
  * https://github.com/DualTachyon
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -113,7 +114,22 @@ void UI_PrintStringSmall(const char *pString, uint8_t Start, uint8_t End, uint8_
 
 void UI_PrintStringSmallNormal(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
 {
-    UI_PrintStringSmall(pString, Start, End, Line, ARRAY_SIZE(gFontSmall[0]), (const uint8_t *)gFontSmall);
+    // Check if string contains any non-ASCII (UTF-8 Chinese) characters
+    bool has_chinese = false;
+    const char *p = pString;
+    while (*p) {
+        if ((*p & 0x80) != 0) {
+            has_chinese = true;
+            break;
+        }
+        p++;
+    }
+    
+    if (has_chinese) {
+        UI_PrintStringSmallCN(pString, Start, End, Line);
+    } else {
+        UI_PrintStringSmall(pString, Start, End, Line, ARRAY_SIZE(gFontSmall[0]), (const uint8_t *)gFontSmall);
+    }
 }
 
 void UI_PrintStringSmallNormalInverse(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
@@ -405,4 +421,86 @@ void UI_DisplayPopup(const char *string)
 void UI_DisplayClear()
 {
     memset(gFrameBuffer, 0, sizeof(gFrameBuffer));
+}
+
+// ----- Chinese-capable string renderer -----
+// Renders directly into framebuffer, supports UTF-8 Chinese + ASCII.
+// Falls back to old font for non-CJK text.
+void UI_PrintStringSmallCN(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
+{
+    const char *p = pString;
+    uint8_t x = Start;
+    uint8_t last_valid_x = Start;
+    
+    // Calculate centering offset for Chinese text
+    // Count display width in pixels
+    uint16_t total_width = 0;
+    const char *q = pString;
+    while (*q) {
+        if ((*q & 0x80) == 0) {
+            total_width += 7; // 6px + 1 spacing
+            q++;
+        } else if ((*q & 0xF0) == 0xE0) {
+            total_width += 9; // 8px + 1 spacing
+            q += 3;
+        } else if ((*q & 0xE0) == 0xC0) {
+            q += 2;
+        } else {
+            q++;
+        }
+    }
+    
+    if (End > Start) {
+        x = Start + (((End - Start) - total_width) + 1) / 2;
+    }
+    if (x < Start) x = Start;
+    
+    p = pString;
+    while (*p && x < 128) {
+        if ((*p & 0x80) == 0) {
+            // ASCII - use old font
+            if (*p > ' ' && *p < 127) {
+                const unsigned int index = *p - ' ' - 1;
+                if (index < 94) {
+                    memcpy(gFrameBuffer[Line] + x, gFontSmall[index], 6);
+                    x += 7;
+                } else {
+                    x += 7;
+                }
+            } else if (*p == ' ') {
+                x += 7;
+            } else {
+                x += 7;
+            }
+            p++;
+        } else if ((*p & 0xF0) == 0xE0) {
+            // 3-byte UTF-8 CJK
+            uint16_t code = ((p[0] & 0x0F) << 12) | ((p[1] & 0x3F) << 6) | (p[2] & 0x3F);
+            
+            // Binary search
+            int lo = 0, hi = FONT_CN_N - 1;
+            const uint8_t *found = NULL;
+            while (lo <= hi) {
+                int mid = (lo + hi) / 2;
+                if (gFontCN_Unicode[mid] == code) {
+                    found = gFontCN_Data[mid];
+                    break;
+                } else if (gFontCN_Unicode[mid] < code) {
+                    lo = mid + 1;
+                } else {
+                    hi = mid - 1;
+                }
+            }
+            
+            if (found) {
+                memcpy(gFrameBuffer[Line] + x, found, FONT_CN_W);
+                x += FONT_CN_W + 1;
+            }
+            p += 3;
+        } else if ((*p & 0xE0) == 0xC0) {
+            p += 2;
+        } else {
+            p++;
+        }
+    }
 }
