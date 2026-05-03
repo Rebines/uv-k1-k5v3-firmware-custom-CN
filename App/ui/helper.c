@@ -19,6 +19,7 @@
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
 #include "font.h"
+#include "font_cn.h"
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 #include "misc.h"
@@ -70,8 +71,12 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
     const size_t Length = strlen(pString);
     const unsigned int char_spacing = char_width + 1;
     for (size_t i = 0; i < Length; i++) {
-        const unsigned int index = pString[i] - ' ' - 1;
-        if (pString[i] > ' ' && pString[i] < 127) {
+        unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT) {
+            const uint32_t offset = i * char_spacing + 1;
+            memcpy(buffer + offset, gFontCN_Big[c - FONT_CN_BASE], char_width);
+        } else if (c > ' ' && c < 127) {
+            const unsigned int index = c - ' ' - 1;
             const uint32_t offset = i * char_spacing + 1;
             memcpy(buffer + offset, font + index * char_width, char_width);
         }
@@ -89,9 +94,16 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
     for (i = 0; i < Length; i++)
     {
         const unsigned int ofs   = (unsigned int)Start + (i * Width);
-        if (pString[i] > ' ' && pString[i] < 127)
+        unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
         {
-            const unsigned int index = pString[i] - ' ' - 1;
+            unsigned int idx = c - FONT_CN_BASE;
+            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontCN_Big[idx][0], 7);
+            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontCN_Big[idx][7], 7);
+        }
+        else if (c > ' ' && c < 127)
+        {
+            const unsigned int index = c - ' ' - 1;
             memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
         }

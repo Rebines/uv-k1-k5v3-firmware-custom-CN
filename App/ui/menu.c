@@ -28,6 +28,7 @@
 #include "../driver/st7565.h"
 #include "../external/printf/printf.h"
 #include "../font.h"
+#include "../font_cn.h"
 #include "../frequencies.h"
 #include "../helper/battery.h"
 #include "../misc.h"
@@ -194,16 +195,15 @@ const t_menu_item MenuList[] =
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
-const char gSubMenu_TXP[][6] =
-{
-    "USER",
-    "LOW 1",
-    "LOW 2",
-    "LOW 3",
-    "LOW 4",
-    "LOW 5",
-    "MID",
-    "HIGH"
+const char gSubMenu_TXP[][4] = {
+    {CN_C7528, CN_C6237, 0},
+    {CN_C4F4E, '1', 0},
+    {CN_C4F4E, '2', 0},
+    {CN_C4F4E, '3', 0},
+    {CN_C4F4E, '4', 0},
+    {CN_C4F4E, '5', 0},
+    {CN_C4E2D, 0},
+    {CN_C9AD8, 0},
 };
 
 const char gSubMenu_SFT_D[][4] =
@@ -213,16 +213,14 @@ const char gSubMenu_SFT_D[][4] =
     "-"
 };
 
-const char gSubMenu_W_N[][7] =
-{
-    "WIDE",
-    "NARROW"
+const char gSubMenu_W_N[][4] = {
+    {CN_C5BBD, CN_C5E26, 0},
+    {CN_C7A84, CN_C5E26, 0},
 };
 
-const char gSubMenu_OFF_ON[][4] =
-{
-    "OFF",
-    "ON"
+const char gSubMenu_OFF_ON[][3] = {
+    {CN_C5173, 0},
+    {CN_C5F00, 0},
 };
 
 const char gSubMenu_NA[4] =
@@ -230,12 +228,15 @@ const char gSubMenu_NA[4] =
     "N/A"
 };
 
-const char* const gSubMenu_RXMode[] =
-{
-    "MAIN\nONLY",       // TX and RX on main only
-    "DUAL RX\nRESPOND", // Watch both and respond
-    "CROSS\nBAND",      // TX on main, RX on secondary
-    "MAIN TX\nDUAL RX"  // always TX on main, but RX on both
+static const char _RXMode_0[] = {CN_C4E3B, CN_C5355, 0};
+static const char _RXMode_1[] = {CN_C53CC, CN_C6536, 0};
+static const char _RXMode_2[] = {CN_C8DE8, CN_C6BB5, 0};
+static const char _RXMode_3[] = {CN_C4E3B, CN_C53D1, CN_C53CC, CN_C6536, 0};
+const char* const gSubMenu_RXMode[] = {
+    _RXMode_0,
+    _RXMode_1,
+    _RXMode_2,
+    _RXMode_3,
 };
 
 #ifdef ENABLE_VOICE
@@ -247,12 +248,15 @@ const char* const gSubMenu_RXMode[] =
     };
 #endif
 
-const char* const gSubMenu_MDF[] =
-{
-    "FREQ",
-    "CHANNEL\nNUMBER",
-    "NAME",
-    "NAME\n+\nFREQ"
+static const char _MDF_0[] = {CN_C9891, CN_C7387, 0};
+static const char _MDF_1[] = {CN_C4FE1, CN_C9053, CN_C53F7, 0};
+static const char _MDF_2[] = {CN_C540D, CN_C79F0, 0};
+static const char _MDF_3[] = {CN_C540D, '+', CN_C9891, 0};
+const char* const gSubMenu_MDF[] = {
+    _MDF_0,
+    _MDF_1,
+    _MDF_2,
+    _MDF_3,
 };
 
 #ifdef ENABLE_ALARM
@@ -273,26 +277,26 @@ const char gSubMenu_D_RSP[][11] =
 };
 #endif
 
+static const char _PTT_ID_0[] = {CN_C5173, 0};
+static const char _PTT_ID_1[] = {CN_C4E0A, CN_C884C, CN_C7801, 0};
+static const char _PTT_ID_2[] = {CN_C4E0B, CN_C884C, CN_C7801, 0};
+static const char _PTT_ID_3[] = {CN_C4E0A, CN_C4E0B, CN_C7801, 0};
+static const char _PTT_ID_4[] = {CN_C963F, CN_C6CE2, CN_C7F57, 0};
 const char* const gSubMenu_PTT_ID[] =
 {
-    "OFF",
-    "UP CODE",
-    "DOWN CODE",
-    "UP+DOWN\nCODE",
-    "APOLLO\nQUINDAR"
+    _PTT_ID_0,
+    _PTT_ID_1,
+    _PTT_ID_2,
+    _PTT_ID_3,
+    _PTT_ID_4,
 };
 
-const char gSubMenu_PONMSG[][8] =
-{
-#ifdef ENABLE_FEAT_F4HWN
-    "ALL",
-    "SOUND",
-#else
-    "FULL",
-#endif
-    "MESSAGE",
-    "VOLTAGE",
-    "NONE"
+const char gSubMenu_PONMSG[][4] = {
+    {CN_C5168, CN_C90E8, 0},
+    {CN_C58F0, CN_C97F3, 0},
+    {CN_C4FE1, CN_C606F, 0},
+    {CN_C7535, CN_C538B, 0},
+    {CN_C65E0, 0},
 };
 
 const char gSubMenu_ROGER[][6] =
@@ -329,19 +333,17 @@ const char * const gSubMenu_F_LOCK[] =
     "UNLOCK\nALL",
 };
 
-const char gSubMenu_RX_TX[][6] =
-{
-    "OFF",
-    "TX",
-    "RX",
-    "TX/RX"
+const char gSubMenu_RX_TX[][4] = {
+    {CN_C5173, 0},
+    {CN_C53D1, CN_C5C04, 0},
+    {CN_C63A5, CN_C6536, 0},
+    {CN_C6536, CN_C53D1, 0},
 };
 
-const char gSubMenu_BAT_TXT[][8] =
-{
-    "NONE",
-    "VOLTAGE",
-    "PERCENT"
+const char gSubMenu_BAT_TXT[][5] = {
+    {CN_C65E0, 0},
+    {CN_C7535, CN_C538B, 0},
+    {CN_C767E, CN_C5206, CN_C6BD4, 0},
 };
 
 const char gSubMenu_BATTYP[][12] =
@@ -353,10 +355,9 @@ const char gSubMenu_BATTYP[][12] =
     "2500mAh K1"
 };
 
-const char gSubMenu_SET_NAV[][17] =
-{
-    "LEFT\nRIGHT\nUV-K1",
-    "UP\nDOWN\nUV-K5(8)",
+const char gSubMenu_SET_NAV[][4] = {
+    {CN_C5DE6, CN_C53F3, 0},
+    {CN_C4E0A, CN_C4E0B, 0},
 };
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -388,30 +389,27 @@ const char gSubMenu_SCRAMBLER[][7] =
         "5"
     };
 
-    const char gSubMenu_SET_PTT[][8] =
-    {
-        "CLASSIC",
-        "ONEPUSH"
+    const char gSubMenu_SET_PTT[][4] = {
+        {CN_C7ECF, CN_C5178, 0},
+        {CN_C5355, CN_C6309, 0},
     };
 
-    const char gSubMenu_SET_TOT[][7] =  // Use by SET_EOT too
+    const char gSubMenu_SET_TOT[][4] =  // Use by SET_EOT too
     {
-        "OFF",
-        "SOUND",
-        "VISUAL",
-        "ALL"
+        {CN_C5173, 0},
+        {CN_C58F0, CN_C97F3, 0},
+        {CN_C89C6, CN_C89C9, 0},
+        {CN_C5168, CN_C90E8, 0},
     };
 
-    const char gSubMenu_SET_LCK[][9] =
-    {
-        "KEYS",
-        "KEYS+PTT"
+    const char gSubMenu_SET_LCK[][7] = {
+        {CN_C6309, CN_C952E, 0},
+        {CN_C952E, '+', 'P', 'T', 'T', 0},
     };
 
-    const char gSubMenu_SET_MET[][8] =
-    {
-        "TINY",
-        "CLASSIC"
+    const char gSubMenu_SET_MET[][4] = {
+        {CN_C8FF7, CN_C4F60, 0},
+        {CN_C7ECF, CN_C5178, 0},
     };
 
     #ifdef ENABLE_FEAT_F4HWN_AUDIO

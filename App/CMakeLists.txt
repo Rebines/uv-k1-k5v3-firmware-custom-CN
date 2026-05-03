@@ -30,6 +30,7 @@ target_sources(App INTERFACE
     board.c
     dcs.c
     font.c
+    font_cn.c
     frequencies.c
     functions.c
     helper/battery.c
