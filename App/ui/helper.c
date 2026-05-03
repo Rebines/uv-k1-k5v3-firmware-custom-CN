@@ -80,6 +80,8 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
             const unsigned int index = c - ' ' - 1;
             memcpy(buffer + pos, font + index * char_width, char_width);
             pos += char_spacing;
+        } else if (c == ' ') {
+            pos += char_spacing;
         }
     }
 }
@@ -118,6 +120,10 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
             const unsigned int index = c - ' ' - 1;
             memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
+            ofs += Width;
+        }
+        else if (c == ' ')
+        {
             ofs += Width;
         }
     }
