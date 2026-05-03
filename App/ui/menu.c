@@ -304,7 +304,7 @@ const char gSubMenu_PONMSG[][4] = {
 const char gSubMenu_ROGER[][6] =
 {
     {CN_C5173, 0},
-    {CN_C901A, CN_C6BD5, 0},
+    "Roger",
     "MDC"
 };
 
