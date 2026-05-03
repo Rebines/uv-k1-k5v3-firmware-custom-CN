@@ -6,7 +6,7 @@
 
 基于 [F4HWN 固件](https://github.com/armel/uv-k5-firmware-custom) 的汉化分支，为 UV-K1 和 UV-K5 V3（PY32F071 MCU）定制。
 
-## ✅ 最新正式版 v2.0.0-cn
+## ✅ 最新正式版 v5.4.0-cn（汉化 v2）
 
 👉 **[下载 Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest)**
 
