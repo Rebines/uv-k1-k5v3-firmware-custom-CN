@@ -2,7 +2,30 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/ecdd86aa536b716f088339a0c5ee734558f78c28.svg "Repobeats analytics image")
 
-# F4HWN firmware port for the UV-K1 and UV-K5 V3 using the PY32F071 MCU
+# 🌙 UV-K1 / UV-K5 V3 F4HWN 汉化固件
+
+基于 [F4HWN 固件](https://github.com/armel/uv-k5-firmware-custom) 的汉化分支，为 UV-K1 和 UV-K5 V3（PY32F071 MCU）定制。
+
+## 🇨🇳 汉化内容
+
+- **子菜单选项汉化** — OFF/ON、WIDE/NARROW、TXP 功率等级、RXMode 接收模式等所有子菜单选项已翻译为中文
+- **7×16 点阵中文字库** — 内置 60 个常用汉字的 7×16 大字库（利用 Big Font 渲染），自动检测并渲染中文
+- **菜单名称保持英文** — 一级菜单保持原版缩写，方便国际交流
+- **原版功能完全保留** — 所有 F4HWN Fusion 特性、Bug 修复全部保留
+
+## 📝 使用说明
+
+```
+./compile-with-docker.sh Fusion
+```
+
+刷机请使用 [UVTools2](https://armel.github.io/uvtools2/?mode=flash)。
+
+---
+
+*该仓库 Fork 自 [armel/uv-k1-k5v3-firmware-custom](https://github.com/armel/uv-k1-k5v3-firmware-custom)，原始工作基于 DualTachyon 的开源固件。*
+
+# F4HWN firmware port for the UV-K1 and UV-K5 V3 using the PY32F071 MCU (English)
 
 This repository is a fork of the [F4HWN custom firmware](https://github.com/armel/uv-k5-firmware-custom), who was a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom). It extends the work done for the UV-K5 V1, based on the DP32G030 MCU, and adapts it to the newer UV-K1 and UV-K5 V3 built around the PY32F071 MCU. It is the result of the joint work of [@muzkr](https://github.com/muzkr) and [@armel](https://github.com/armel).
 
