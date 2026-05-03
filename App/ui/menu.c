@@ -213,14 +213,16 @@ const char gSubMenu_SFT_D[][4] =
     "-"
 };
 
-const char gSubMenu_W_N[][4] = {
-    {CN_C5BBD, CN_C5E26, 0},
-    {CN_C7A84, CN_C5E26, 0},
+const char gSubMenu_W_N[][7] =
+{
+    "WIDE",
+    "NARROW"
 };
 
-const char gSubMenu_OFF_ON[][3] = {
-    {CN_C5173, 0},
-    {CN_C5F00, 0},
+const char gSubMenu_OFF_ON[][4] =
+{
+    "OFF",
+    "ON"
 };
 
 const char gSubMenu_NA[4] =
@@ -242,9 +244,9 @@ const char* const gSubMenu_RXMode[] = {
 #ifdef ENABLE_VOICE
     const char gSubMenu_VOICE[][4] =
     {
-        "OFF",
-        "CHI",
-        "ENG"
+        {CN_C5173, 0},
+        {CN_C4E2D, CN_C6587, 0},
+        {CN_C82F1, CN_C6587, 0}
     };
 #endif
 
@@ -301,15 +303,15 @@ const char gSubMenu_PONMSG[][4] = {
 
 const char gSubMenu_ROGER[][6] =
 {
-    "OFF",
-    "ROGER",
+    {CN_C5173, 0},
+    {CN_C901A, CN_C6BD5, 0},
     "MDC"
 };
 
 const char gSubMenu_RESET[][4] =
 {
     "VFO",
-    "ALL"
+    {CN_C5168, CN_C90E8, 0}
 };
 
 const char * const gSubMenu_F_LOCK[] =
