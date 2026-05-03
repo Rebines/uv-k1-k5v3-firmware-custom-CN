@@ -6,20 +6,31 @@
 
 基于 [F4HWN 固件](https://github.com/armel/uv-k5-firmware-custom) 的汉化分支，为 UV-K1 和 UV-K5 V3（PY32F071 MCU）定制。
 
+## ✅ 最新正式版 v5.4.0-cn
+
+👉 **[下载 Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest)**
+
 ## 🇨🇳 汉化内容
 
-- **子菜单选项汉化** — OFF/ON、WIDE/NARROW、TXP 功率等级、RXMode 接收模式等所有子菜单选项已翻译为中文
-- **7×16 点阵中文字库** — 内置 60 个常用汉字的 7×16 大字库（利用 Big Font 渲染），自动检测并渲染中文
+- **子菜单选项汉化** — OFF/ON、WIDE/NARROW、TXP 功率等级、RXMode 接收模式、PONMSG、RX/TX 等所有子菜单选项已翻译为中文
+- **16×16 点阵中文字库** — 内置 60 个常用汉字的 16×16 大字库，直接 16px 渲染，笔画清晰 1px
+- **单字节编码渲染** — 自定义 0x80+ 编码，避免 UTF-8 多字节在 LCD 字符 ROM 中查找失败的问题
+- **混合渲染支持** — 中英文可同时显示
 - **菜单名称保持英文** — 一级菜单保持原版缩写，方便国际交流
 - **原版功能完全保留** — 所有 F4HWN Fusion 特性、Bug 修复全部保留
 
 ## 📝 使用说明
 
+### 刷机（推荐）
+从 [Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest) 下载 `f4hwn.fusion.bin`，使用 [UVTools2 Flash 模式](https://armel.github.io/uvtools2/?mode=flash) 刷入：
+1. 手台关机 → 按住 PTT + SK1（顶部侧键）→ 开机（进入 DFU 模式）
+2. 浏览器打开 UVTools2
+3. 选 .bin 文件 → 刷入
+
+### 自行编译
 ```
 ./compile-with-docker.sh Fusion
 ```
-
-刷机请使用 [UVTools2](https://armel.github.io/uvtools2/?mode=flash)。
 
 ---
 
