@@ -264,18 +264,18 @@ const char* const gSubMenu_MDF[] = {
 #ifdef ENABLE_ALARM
     const char gSubMenu_AL_MOD[][5] =
     {
-        "SITE",
-        "TONE"
+        {CN_C7AD9, CN_C70B9, 0},
+        {CN_C97F3, CN_C9891, 0}
     };
 #endif
 
 #ifdef ENABLE_DTMF_CALLING
 const char gSubMenu_D_RSP[][11] =
 {
-    "DO\nNOTHING",
-    "RING",
-    "REPLY",
-    "BOTH"
+    {CN_C65E0, CN_C54CD, CN_C5E94, 0},
+    {CN_C54CD, CN_C94C3, 0},
+    {CN_C56DE, CN_C590D, 0},
+    {CN_C4E24, CN_C8005, 0}
 };
 #endif
 
@@ -417,26 +417,26 @@ const char gSubMenu_SCRAMBLER[][7] =
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
         const char gSubMenu_SET_AUD_FM[][6] =
         {
-            "FLAT",
-            "CLEAN",
-            "MID",
-            "BOOST",
-            "MAX"
+            {CN_C5E73, CN_C5766, 0},
+            {CN_C6E05, CN_C6670, 0},
+            {CN_C4E2D, 0},
+            {CN_C589E, CN_C5F3A, 0},
+            {CN_C6700, CN_C5927, 0}
         };
 
         const char gSubMenu_SET_AUD_AM[][6] =
         {
-            "SHARP",
-            "STOCK",
-            "OPEN"
+            {CN_C9510, CN_C5229, 0},
+            {CN_C539F, CN_C5382, 0},
+            {CN_C5F00, CN_C653E, 0}
         };
     #endif
 
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
         const char gSubMenu_SET_NFM[][9] =
         {
-            "NARROW",
-            "NARROWER"
+            {CN_C7A84, CN_C5E26, 0},
+            {CN_C8D85, CN_C7A84, 0}
         };
     #endif
 
