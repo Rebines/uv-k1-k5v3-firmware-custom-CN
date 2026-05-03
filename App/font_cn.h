@@ -2,11 +2,11 @@
 #define FONT_CN_H
 #include <stdint.h>
 
-#define FONT_CN_WIDTH  12
+#define FONT_CN_WIDTH  16
 #define FONT_CN_COUNT 60
 #define FONT_CN_BASE 0x80
 
-extern const uint8_t gFontCN_Big[60][24];
+extern const uint8_t gFontCN_Big[60][32];
 
 // Character encoding
 #define CN_C4E0A  ((char)(0x80 + 0))
