@@ -417,18 +417,18 @@ const char gSubMenu_SCRAMBLER[][7] =
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
         const char gSubMenu_SET_AUD_FM[][6] =
         {
-            {CN_C5E73, CN_C5766, 0},
-            {CN_C6E05, CN_C6670, 0},
-            {CN_C4E2D, 0},
-            {CN_C589E, CN_C5F3A, 0},
-            {CN_C6700, CN_C5927, 0}
+            "FLAT",
+            "CLEAN",
+            "MID",
+            "BOOST",
+            "MAX"
         };
 
         const char gSubMenu_SET_AUD_AM[][6] =
         {
-            {CN_C9510, CN_C5229, 0},
-            {CN_C539F, CN_C5382, 0},
-            {CN_C5F00, CN_C653E, 0}
+            "SHARP",
+            "STOCK",
+            "OPEN"
         };
     #endif
 
