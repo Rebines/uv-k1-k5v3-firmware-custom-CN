@@ -1,5 +1,3 @@
-Parsing BDF...
-Loaded 22852 glyphs
 #include "font_cn.h"
 
 const uint8_t gFontCN_Big[86][32] = {
