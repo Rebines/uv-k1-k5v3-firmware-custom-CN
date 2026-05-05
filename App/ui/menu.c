@@ -314,13 +314,12 @@ const char gSubMenu_RESET[][4] =
     {CN_C5168, CN_C90E8, 0}
 };
 
-static const char _FLock_Default[]     = {CN_C9ED8, CN_C8BA4, '+', '\n', '1', '3', '7', '-', '1', '7', '4', '\n', '4', '0', '0', '-', '4', '7', '0', 0};
 static const char _FLock_DisableAll[] = {CN_C5168, CN_C90E8, '\n', CN_C7981, CN_C7528, 0};
 static const char _FLock_UnlockAll[]  = {CN_C5168, CN_C90E8, '\n', CN_C89E3, CN_C9501, 0};
 
 const char * const gSubMenu_F_LOCK[] =
 {
-    _FLock_Default,
+    "DEFAULT+\n137-174\n400-470",
     "FCC HAM\n144-148\n420-450",
 #ifdef ENABLE_FEAT_F4HWN_CA
     "CA HAM\n144-148\n430-450",
