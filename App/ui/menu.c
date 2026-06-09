@@ -287,6 +287,7 @@ static const char _PTT_ID_1[] = {CN_C4E0A, CN_C884C, CN_C7801, 0};
 static const char _PTT_ID_2[] = {CN_C4E0B, CN_C884C, CN_C7801, 0};
 static const char _PTT_ID_3[] = {CN_C4E0A, CN_C4E0B, CN_C7801, 0};
 static const char _PTT_ID_4[] = {CN_C963F, CN_C6CE2, CN_C7F57, 0};
+static const char _BEAM_Name[] = {CN_C6CE2, CN_C675F, 0};
 const char* const gSubMenu_PTT_ID[] =
 {
     _PTT_ID_0,
@@ -302,7 +303,7 @@ const char gSubMenu_PONMSG[][4] = {
     {CN_C4FE1, CN_C606F, 0},
     {CN_C7535, CN_C538B, 0},
 #ifdef ENABLE_FEAT_F4HWN_LOGO
-    "LOGO",
+    {CN_C56FE, CN_C6807, 0},
 #endif
     {CN_C65E0, 0},
 };
@@ -424,10 +425,10 @@ const char gSubMenu_SCRAMBLER[][7] =
     };
 
     #ifdef ENABLE_FEAT_F4HWN_SCAN_FASTER
-        const char gSubMenu_SET_SCN[][7] =
+        const char gSubMenu_SET_SCN[][5] =
         {
-            "NORMAL",
-            "FAST"
+            {CN_C666E, CN_C901A, 0},
+            {CN_C5FEB, CN_C901F, 0}
         };
     #endif
 
@@ -515,7 +516,7 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
         {"REMOVE\nOFFSET",  ACTION_OPT_REMOVE_OFFSET},
     #endif
     #ifdef ENABLE_FEAT_F4HWN_BEAM
-        {"BEAM",            ACTION_OPT_BEAM},
+        {_BEAM_Name,           ACTION_OPT_BEAM},
     #endif
 #endif
 };
