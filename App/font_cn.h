@@ -3,10 +3,10 @@
 #include <stdint.h>
 
 #define FONT_CN_WIDTH  16
-#define FONT_CN_COUNT 92
+#define FONT_CN_COUNT 112
 #define FONT_CN_BASE 0x80
 
-extern const uint8_t gFontCN_Big[92][32];
+extern const uint8_t gFontCN_Big[112][32];
 
 #define CN_C4E0A  ((char)(0x80 + 0))
 #define CN_C4E0B  ((char)(0x80 + 1))
@@ -100,5 +100,25 @@ extern const uint8_t gFontCN_Big[92][32];
 #define CN_C5FEB  ((char)(0x80 + 89))
 #define CN_C901F  ((char)(0x80 + 90))
 #define CN_C675F  ((char)(0x80 + 91))
+#define CN_C4EC5  ((char)(0x80 + 92))
+#define CN_C529F  ((char)(0x80 + 93))
+#define CN_C53BB  ((char)(0x80 + 94))
+#define CN_C542C  ((char)(0x80 + 95))
+#define CN_C5DEE  ((char)(0x80 + 96))
+#define CN_C5F0F  ((char)(0x80 + 97))
+#define CN_C624B  ((char)(0x80 + 98))
+#define CN_C626B  ((char)(0x80 + 99))
+#define CN_C62A5  ((char)(0x80 + 100))
+#define CN_C63A7  ((char)(0x80 + 101))
+#define CN_C63CF  ((char)(0x80 + 102))
+#define CN_C673A  ((char)(0x80 + 103))
+#define CN_C6A21  ((char)(0x80 + 104))
+#define CN_C6E90  ((char)(0x80 + 105))
+#define CN_C76D1  ((char)(0x80 + 106))
+#define CN_C76D8  ((char)(0x80 + 107))
+#define CN_C7B52  ((char)(0x80 + 108))
+#define CN_C8B66  ((char)(0x80 + 109))
+#define CN_C9664  ((char)(0x80 + 110))
+#define CN_C9759  ((char)(0x80 + 111))
 
 #endif

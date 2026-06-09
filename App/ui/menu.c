@@ -287,7 +287,26 @@ static const char _PTT_ID_1[] = {CN_C4E0A, CN_C884C, CN_C7801, 0};
 static const char _PTT_ID_2[] = {CN_C4E0B, CN_C884C, CN_C7801, 0};
 static const char _PTT_ID_3[] = {CN_C4E0A, CN_C4E0B, CN_C7801, 0};
 static const char _PTT_ID_4[] = {CN_C963F, CN_C6CE2, CN_C7F57, 0};
-static const char _BEAM_Name[] = {CN_C6CE2, CN_C675F, 0};
+// 侧键功能中文名
+static const char _NONE_Name[] =       {CN_C65E0, 0};
+static const char _FLASHLIGHT_Name[] = {CN_C624B, CN_C7535, 0};
+static const char _POWER_Name[] =      {CN_C7535, CN_C6E90, 0};
+static const char _MONITOR_Name[] =    {CN_C76D1, CN_C542C, 0};
+static const char _SCAN_Name[] =       {CN_C626B, CN_C63CF, 0};
+static const char _VOX_Name[] =        {CN_C58F0, CN_C63A7, 0};
+static const char _ALARM_Name[] =      {CN_C62A5, CN_C8B66, 0};
+static const char _FMRADIO_Name[] =    {CN_C6536, CN_C97F3, CN_C673A, 0};
+static const char _KEYLOCK_Name[] =    {CN_C9501, '\n', CN_C952E, CN_C76D8, 0};
+static const char _VFOMEM_Name[] =     {'V','F','O','\n', CN_C4FE1, CN_C9053, 0};
+static const char _MODE_Name[] =       {CN_C6A21, CN_C5F0F, 0};
+static const char _RXMODE_Name[] =     {CN_C63A5, CN_C6536, 0};
+static const char _MAINONLY_Name[] =   {CN_C4EC5, CN_C4E3B, CN_C9891, 0};
+static const char _WN_Name[] =         {CN_C5BBD, CN_C5E26, '\n', CN_C7A84, CN_C5E26, 0};
+static const char _MUTE_Name[] =       {CN_C9759, CN_C97F3, 0};
+static const char _RXA_Name[] =        {CN_C97F3, CN_C9891, 0};
+static const char _POWERHIGH_Name[] =  {CN_C9AD8, CN_C529F, CN_C7387, 0};
+static const char _REMOFFSET_Name[] =  {CN_C53BB, CN_C9664, '\n', CN_C9891, CN_C5DEE, 0};
+static const char _BEAM_Name[] =       {CN_C6CE2, CN_C675F, 0};
 const char* const gSubMenu_PTT_ID[] =
 {
     _PTT_ID_0,
@@ -472,21 +491,21 @@ const char gSubMenu_SCRAMBLER[][7] =
 
 const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 {
-    {"NONE",            ACTION_OPT_NONE},
+    {_NONE_Name,         ACTION_OPT_NONE},
 #ifdef ENABLE_FLASHLIGHT
-    {"FLASH\nLIGHT",    ACTION_OPT_FLASHLIGHT},
+    {_FLASHLIGHT_Name,   ACTION_OPT_FLASHLIGHT},
 #endif
-    {"POWER",           ACTION_OPT_POWER},
-    {"MONITOR",         ACTION_OPT_MONITOR},
-    {"SCAN",            ACTION_OPT_SCAN},
+    {_POWER_Name,        ACTION_OPT_POWER},
+    {_MONITOR_Name,      ACTION_OPT_MONITOR},
+    {_SCAN_Name,         ACTION_OPT_SCAN},
 #ifdef ENABLE_VOX
-    {"VOX",             ACTION_OPT_VOX},
+    {_VOX_Name,          ACTION_OPT_VOX},
 #endif
 #ifdef ENABLE_ALARM
-    {"ALARM",           ACTION_OPT_ALARM},
+    {_ALARM_Name,        ACTION_OPT_ALARM},
 #endif
 #ifdef ENABLE_FMRADIO
-    {"FM RADIO",        ACTION_OPT_FM},
+    {_FMRADIO_Name,      ACTION_OPT_FM},
 #endif
 #ifdef ENABLE_TX1750
     {"1750Hz",          ACTION_OPT_1750},
@@ -495,25 +514,25 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
     {"REGA\nALARM",     ACTION_OPT_REGA_ALARM},
     {"REGA\nTEST",      ACTION_OPT_REGA_TEST},
 #endif
-    {"LOCK\nKEYPAD",    ACTION_OPT_KEYLOCK},
+    {_KEYLOCK_Name,      ACTION_OPT_KEYLOCK},
     {"VFO A\nVFO B",    ACTION_OPT_A_B},
-    {"VFO\nMEM",        ACTION_OPT_VFO_MR},
-    {"MODE",            ACTION_OPT_SWITCH_DEMODUL},
+    {_VFOMEM_Name,       ACTION_OPT_VFO_MR},
+    {_MODE_Name,         ACTION_OPT_SWITCH_DEMODUL},
 #ifdef ENABLE_BLMIN_TMP_OFF
     {"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF},      //BackLight Minimum Temporay OFF
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-    {"RX MODE",         ACTION_OPT_RXMODE},
-    {"MAIN ONLY",       ACTION_OPT_MAINONLY},
+    {_RXMODE_Name,       ACTION_OPT_RXMODE},
+    {_MAINONLY_Name,     ACTION_OPT_MAINONLY},
     {"PTT",             ACTION_OPT_PTT},
-    {"WIDE\nNARROW",    ACTION_OPT_WN},
-    {"MUTE",            ACTION_OPT_MUTE},
+    {_WN_Name,           ACTION_OPT_WN},
+    {_MUTE_Name,         ACTION_OPT_MUTE},
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
-        {"RxA",            ACTION_OPT_RXA},
+        {_RXA_Name,          ACTION_OPT_RXA},
     #endif
     #ifdef ENABLE_FEAT_F4HWN_RESCUE_OPS
-        {"POWER\nHIGH",    ACTION_OPT_POWER_HIGH},
-        {"REMOVE\nOFFSET",  ACTION_OPT_REMOVE_OFFSET},
+        {_POWERHIGH_Name,    ACTION_OPT_POWER_HIGH},
+        {_REMOFFSET_Name,    ACTION_OPT_REMOVE_OFFSET},
     #endif
     #ifdef ENABLE_FEAT_F4HWN_BEAM
         {_BEAM_Name,           ACTION_OPT_BEAM},
