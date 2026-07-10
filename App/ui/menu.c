@@ -329,15 +329,12 @@ const char gSubMenu_PONMSG[][4] = {
 
 #if defined(ENABLE_FEAT_F4HWN) && defined(ENABLE_FEAT_F4HWN_LOGO_SAV)
 static const char _SetSav_Off[]    = {CN_C5173, 0};
-static const char _SetSav_Logo[]   = {CN_C6807, CN_C5FD7, 0};
-static const char _SetSav_LogoP[]  = {CN_C6807, CN_C5FD7, '+', 0};
-static const char _SetSav_Matrix[] = {CN_C77E9, CN_C9635, 0};
 const char* const gSubMenu_SET_SAV[] =
 {
     _SetSav_Off,
-    _SetSav_Logo,
-    _SetSav_LogoP,
-    _SetSav_Matrix
+    "LOGO",
+    "LOGO+",
+    "MATRIX"
 };
 #endif
 
