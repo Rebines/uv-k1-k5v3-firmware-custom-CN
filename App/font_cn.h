@@ -3,10 +3,10 @@
 #include <stdint.h>
 
 #define FONT_CN_WIDTH  16
-#define FONT_CN_COUNT 121
+#define FONT_CN_COUNT 122
 #define FONT_CN_BASE 0x80
 
-extern const uint8_t gFontCN_Big[121][32];
+extern const uint8_t gFontCN_Big[122][32];
 
 #define CN_C4E0A  ((char)(0x80 + 0))
 #define CN_C4E0B  ((char)(0x80 + 1))
@@ -129,5 +129,6 @@ extern const uint8_t gFontCN_Big[121][32];
 #define CN_C56FD  ((char)(0x80 + 118))
 #define CN_C64CD  ((char)(0x80 + 119))
 #define CN_C4F5C  ((char)(0x80 + 120))
+#define CN_C65E5  ((char)(0x80 + 121))
 
 #endif

@@ -307,6 +307,7 @@ static const char _RXA_Name[] =        {CN_C97F3, CN_C9891, 0};
 static const char _POWERHIGH_Name[] =  {CN_C9AD8, CN_C529F, CN_C7387, 0};
 static const char _REMOFFSET_Name[] =  {CN_C53BB, CN_C9664, '\n', CN_C9891, CN_C5DEE, 0};
 static const char _BEAM_Name[] =       {CN_C6CE2, CN_C675F, 0};
+static const char _RFLOG_Name[] =     {'R', 'F', ' ', CN_C65E5, CN_C5FD7, 0};
 const char* const gSubMenu_PTT_ID[] =
 {
     _PTT_ID_0,
@@ -547,7 +548,7 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
         {_BEAM_Name,           ACTION_OPT_BEAM},
     #endif
     #ifdef ENABLE_FEAT_F4HWN_RXTX_LOG
-        {"RF LOG",             ACTION_OPT_RXTX_LOG},
+        {_RFLOG_Name,          ACTION_OPT_RXTX_LOG},
     #endif
 #endif
 };
