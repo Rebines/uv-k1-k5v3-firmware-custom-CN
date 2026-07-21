@@ -11,8 +11,9 @@
  *
  * ⚠️⚠️⚠️  添加新汉字的四条戒律（已踩坑四次！）  ⚠️⚠️⚠️
  *
- * 1. 字体来源：必须从「文泉驿点阵宋体」(WenQuanYi Bitmap Song)
- *    的 PCF 位图字库中提取，不得用 Python/PIL 渲染 TrueType 生成！
+ * 1. 字体来源：必须从「文泉驿点阵宋体 11pt」(WenQuanYi Bitmap Song)
+ *    wenquanyi_11pt.pcf 位图字库中提取，不要用其他尺寸的版本！
+ *    已用「号」(index 20) 和「中」(index 3) 验证 11pt 版本完美匹配。
  *
  * 2. 格式验证：加新字前必须先用已知字符（「号」index 20
  *    或「中」index 3）验证 bit 顺序和 column 排布，
