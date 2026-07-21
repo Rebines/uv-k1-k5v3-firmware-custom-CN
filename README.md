@@ -2,6 +2,69 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/ecdd86aa536b716f088339a0c5ee734558f78c28.svg "Repobeats analytics image")
 
+# 🌙 UV-K1 / UV-K5 V3 F4HWN 汉化固件
+
+基于 [F4HWN Fusion 固件](https://github.com/armel/uv-k1-k5v3-firmware-custom) 的汉化分支，为 UV-K1 和 UV-K5 V3（PY32F071 MCU）定制。
+
+## ✅ 最新正式版 v5.7.0-cn
+
+👉 **[下载 Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest)**
+
+## 🇨🇳 汉化内容
+
+- **子菜单选项汉化** — OFF/ON、WIDE/NARROW、TXP 功率等级、RXMode 接收模式、PONMSG、RX/TX、侧键功能等所有子菜单选项已翻译为中文
+- **16×16 点阵中文字库** — 使用文泉驿点阵宋体 15px（WenQuanYi Bitmap Song 15px），从官方 PCF 点阵字库提取，内置 115 个常用汉字，笔画清晰、无锯齿
+- **单字节编码渲染** — 自定义 0x80+ 编码，避免 UTF-8 多字节在 LCD 字符 ROM 中查找失败的问题
+- **混合渲染支持** — 中英文可同时显示
+- **简化/直观的选项保留英文** — ON/OFF、WIDE/NARROW 等常用选项保持原样
+- **菜单名称保持英文** — 一级菜单保持原版缩写，方便国际交流
+- **原版功能完全保留** — 所有 F4HWN Fusion 特性、Bug 修复全部保留
+
+## 📝 v5.7.0-cn Changed
+
+- 同步上游 F4HWN Fusion v5.7.0（RF Log、K5Viewer 更名、移除 REGA）
+- 新增菜单:
+  - **SetLck** — 新增「键+操作」「键+操作+PTT」两个锁定范围选项（汉化）
+  - **RF LOG** — 新 RF 日志功能（主菜单，保留英文）
+- 新增汉字（字库扩展至 121 个）:
+  - **操**（U+64CD）、**作**（U+4F5C）
+
+## 💾 资源占用
+
+| 资源 | 已用 | 总容量 | 占用率 |
+|------|------|--------|--------|
+| **RAM** | 12,480 B | 16 KB | 76% |
+| **FLASH** | 101,956 B | 118 KB | 84% |
+
+汉化部分仅额外占用约 **5.5 KB FLASH**（中文字库 + 渲染代码），RAM 占用与原版完全一致。v5.7.0 新增 RF Log 功能额外使用外部 Flash 约 32 KB。
+
+## 🎯 兼容设备
+
+- **UV-K1**（PY32F071 MCU）— ✅ 完全兼容
+- **UV-K5 V3**（PY32F071 MCU）— ✅ 完全兼容
+- **UV-K5 V1**（DP32G030 MCU）— ❌ 不兼容（芯片不同）
+
+> 本固件基于 F4HWN Fusion v5.6.1，仅适用于 PY32F071 系列 MCU 的手台。能刷原版 Fusion 的就能刷此中文版。
+
+## 📝 使用说明
+
+### 刷机（推荐）
+从 [Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest) 下载 `f4hwn.fusion.bin`，使用 [UVTools2 Flash 模式](https://armel.github.io/uvtools2/?mode=flash) 刷入：
+1. 手台关机 → 按住 PTT + SK1（顶部侧键）→ 开机（进入 DFU 模式）
+2. 浏览器打开 UVTools2
+3. 选 .bin 文件 → 刷入
+
+### 自行编译
+```
+./compile-with-docker.sh Fusion
+```
+
+---
+
+*该仓库 Fork 自 [armel/uv-k1-k5v3-firmware-custom](https://github.com/armel/uv-k1-k5v3-firmware-custom)，原始工作基于 DualTachyon 的开源固件。*
+
+---
+
 # F4HWN firmware port for the UV-K1 and UV-K5 V3 using the PY32F071 MCU
 
 This repository is a fork of the [F4HWN custom firmware](https://github.com/armel/uv-k5-firmware-custom), who was a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom). It extends the work done for the UV-K5 V1, based on the DP32G030 MCU, and adapts it to the newer UV-K1 and UV-K5 V3 built around the PY32F071 MCU. It is the result of the joint work of [@muzkr](https://github.com/muzkr) and [@armel](https://github.com/armel).
@@ -42,7 +105,7 @@ Anyway, have fun.
 
 # Donations
 
-Special thanks to Jean-Cyrille F6IWW (3 times), Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW (2 times), Jorge Ornelas (4 times), Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB, Jean-Claude 14FRS3306, Thierry F4GVO, Eric F1NOU, PricelessToolkit, Ady M6NYJ, Tom McGovern (4 times), Joseph Roth, Pierre-Yves Colin, Frank DJ7FG, Marcel Testaz, Brian Frobisher, Yannick F4JFO, Paolo Bussola, Dirk DL8DF, Levente Szőke (2 times), Bernard-Michel Herrera, Jérôme Saintespes, Paul Davies, RS (3 times), Johan F4WAT, Robert Wörle, Rafael Sundorf, Paul Harker, Peter Fintl, Pascal F4ICR (2 times), Mike DL2MF (3 times), Eric KI1C / F4WFS (3 times), Phil G0ELM, Jérôme Lambert, Eliot Vedel, Alfonso EA7KDF, Jean-François F1EVM, Robert DC1RDB (2 times), Ian KE2CHJ, Daryl VK3AWA, Roberto Brunelli, Robert Boardman, Stephen Oliver, Nicolas F4INE, William Bruno, Daniel OK2VLK, Tayler Chew, Peter DL7RFP, Philippe Kopp, Rune LA6YMA, Jeremy Luna, Steef Wagenaar (2 times), Zhuo BG7SGA, Jamie M0JLB, Antoine LIBERT, Vince K0DKR, Julia DF7JA, Ken 2E0UMK, Victor TI2SYS, Tobi DG9LAY, Deaglan K4DFQ, Catherine PALMER, Brian WA6JFK, Stéphane Hintzy, Roger F1HCN, Marcin Kusaj, Flavio Cottarelli, Bob N1MLZ and Carlos EA1IJ for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
+Special thanks to Jean-Cyrille F6IWW (3 times), Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW (2 times), Jorge Ornelas (4 times), Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB, Jean-Claude 14FRS3306, Thierry F4GVO, Eric F1NOU, PricelessToolkit, Ady M6NYJ, Tom McGovern (4 times), Joseph Roth, Pierre-Yves Colin, Frank DJ7FG, Marcel Testaz, Brian Frobisher, Yannick F4JFO, Paolo Bussola, Dirk DL8DF, Levente Szőke (2 times), Bernard-Michel Herrera, Jérôme Saintespes, Paul Davies, RS (3 times), Johan F4WAT, Robert Wörle, Rafael Sundorf, Paul Harker, Peter Fintl, Pascal F4ICR (2 times), Mike DL2MF (3 times), Eric KI1C / F4WFS (3 times), Phil G0ELM, Jérôme Lambert, Eliot Vedel, Alfonso EA7KDF, Jean-François F1EVM, Robert DC1RDB (2 times), Ian KE2CHJ, Daryl VK3AWA, Roberto Brunelli, Robert Boardman, Stephen Oliver, Nicolas F4INE, William Bruno, Daniel OK2VLK, Tayler Chew, Peter DL7RFP, Philippe Kopp, Rune LA6YMA, Jeremy Luna, Steef Wagenaar (2 times), Zhuo BG7SGA, Jamie M0JLB, Antoine LIBERT, Vince K0DKR, Julia DF7JA, Ken 2E0UMK, Victor TI2SYS, Tobi DG9LAY, Deaglan K4DFQ, Catherine PALMER, Brian WA6JFK, Stéphane Hintzy, Roger F1HCN, Marcin Kusaj, Flavio Cottarelli and Bob N1MLZ for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
 
 ## Table of Contents
 

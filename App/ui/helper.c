@@ -19,6 +19,7 @@
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
 #include "font.h"
+#include "font_cn.h"
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 #include "misc.h"
@@ -71,11 +72,18 @@ void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_w
 {
     const size_t Length = strlen(pString);
     const unsigned int char_spacing = char_width + 1;
+    unsigned int pos = 1;
     for (size_t i = 0; i < Length; i++) {
-        const unsigned int index = pString[i] - ' ' - 1;
-        if (pString[i] > ' ' && pString[i] < 127) {
-            const uint32_t offset = i * char_spacing + 1;
-            memcpy(buffer + offset, font + index * char_width, char_width);
+        unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT) {
+            memcpy(buffer + pos, gFontCN_Big[c - FONT_CN_BASE], FONT_CN_WIDTH);
+            pos += FONT_CN_WIDTH + 1;
+        } else if (c > ' ' && c < 127) {
+            const unsigned int index = c - ' ' - 1;
+            memcpy(buffer + pos, font + index * char_width, char_width);
+            pos += char_spacing;
+        } else if (c == ' ') {
+            pos += char_spacing;
         }
     }
 }
@@ -84,18 +92,41 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
 {
     size_t i;
     size_t Length = strlen(pString);
+    uint8_t totalWidth = 0;
+
+    // Calculate total width (variable for mixed CN/ASCII)
+    for (i = 0; i < Length; i++) {
+        unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
+            totalWidth += FONT_CN_WIDTH + 1;
+        else
+            totalWidth += Width;
+    }
 
     if (End > Start)
-        Start += (((End - Start) - (Length * Width)) + 1) / 2;
+        Start += (((End - Start) - totalWidth) + 1) / 2;
 
+    uint8_t ofs = Start;
     for (i = 0; i < Length; i++)
     {
-        const unsigned int ofs   = (unsigned int)Start + (i * Width);
-        if (pString[i] > ' ' && pString[i] < 127)
+        unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
         {
-            const unsigned int index = pString[i] - ' ' - 1;
+            unsigned int idx = c - FONT_CN_BASE;
+            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontCN_Big[idx][0], FONT_CN_WIDTH);
+            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontCN_Big[idx][FONT_CN_WIDTH], FONT_CN_WIDTH);
+            ofs += FONT_CN_WIDTH + 1;
+        }
+        else if (c > ' ' && c < 127)
+        {
+            const unsigned int index = c - ' ' - 1;
             memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
+            ofs += Width;
+        }
+        else if (c == ' ')
+        {
+            ofs += Width;
         }
     }
 }
