@@ -17,10 +17,13 @@ jobs:
     - name: Compile firmware
       run: |
         chmod +x compile-with-docker.sh
-        ./compile-with-docker.sh
+        ./compile-with-docker.sh Fusion
+        mkdir -p compiled-firmware
+        cp build/Fusion/f4hwn.fusion.bin compiled-firmware/
+        cp build/Fusion/f4hwn.fusion.hex compiled-firmware/
 
     - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:
-        name: firmware-artifact
-        path: compiled-firmware/f4hwn.packed.bin
+        name: f4hwn-fusion-cn-firmware
+        path: compiled-firmware/
