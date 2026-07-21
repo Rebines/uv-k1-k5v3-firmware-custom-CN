@@ -1,3 +1,8 @@
+/*
+ * 中文字库位图数据
+ * ⚠️ 请先阅读 font_cn.h 顶部的「添加新字必读警告」(四条戒律) 再修改本文件！
+ */
+
 #include "font_cn.h"
 
 const uint8_t gFontCN_Big[122][32] = {
