@@ -2,6 +2,68 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/ecdd86aa536b716f088339a0c5ee734558f78c28.svg "Repobeats analytics image")
 
+# 🌙 UV-K1 / UV-K5 V3 F4HWN 汉化固件
+
+基于 [F4HWN Fusion 固件](https://github.com/armel/uv-k1-k5v3-firmware-custom) 的汉化分支，为 UV-K1 和 UV-K5 V3（PY32F071 MCU）定制。
+
+## ✅ 最新正式版 v6.3.0-cn
+
+👉 **[下载 Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest)**
+
+## 🇨🇳 汉化内容
+
+- **子菜单选项汉化** — 功率等级、RXMode、PONMSG、RX/TX、侧键功能、SetLck、SetNFM、音频配置等选项均已翻译为中文
+- **16×16 点阵中文字库** — 使用文泉驿点阵宋体 11pt（15px）PCF 位图字库，内置 128 个常用汉字
+- **单字节编码渲染** — 自定义 `0x80+` 编码，避免 UTF-8 多字节在 LCD 字符 ROM 中查找失败
+- **混合渲染支持** — 中英文可在同一行显示，居中宽度按实际字形计算
+- **常用选项保留英文** — ON/OFF、WIDE/NARROW 等直观选项保持原样
+- **菜单名称保持英文** — 一级菜单和分类名保持原版缩写，方便国际交流
+- **原版功能完全保留** — Full Watch、Multiboot/Multiconfig、RF Log、UV Studio 等 F4HWN v6.3.0 特性全部保留
+
+## 📝 v6.3.0-cn 更新内容
+
+- 同步上游 F4HWN v6.3.0
+- 适配新版菜单分类、Full Watch 六种 RXMode、侧键动作选择器
+- 新增汉字：应、英、猎、狐、调、呼、叫、尖、始、阔（复用两个旧字库槽位，保持 128 字单字节上限）
+- 补充汉化：Full Watch 模式、Fox Hunt / Beacon / Tone Call 侧键动作、音频配置档位
+- 更新构建脚本为 `compile-firmware.sh`，CI 仍构建 Fusion 中文版
+
+## 💾 资源占用
+
+中文字库数据为 128 × 32 B = 4.0 KB，另有少量渲染代码开销。具体 RAM / FLASH 占用以链接器输出为准。
+
+## 🎯 兼容设备
+
+- **UV-K1**（PY32F071 MCU）— ✅ 完全兼容
+- **UV-K5 V3**（PY32F071 MCU）— ✅ 完全兼容
+- **UV-K5 V1**（DP32G030 MCU）— ❌ 不兼容（芯片不同）
+
+> 仅适用于 PY32F071 系列 MCU 的手台。能刷原版 Fusion 的机型即可刷此中文版。
+
+## 📝 使用说明
+
+### 刷机（推荐）
+
+从 [Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest) 下载 `f4hwn.fusion.bin`，使用 [UV Studio](https://armel.github.io/uvstudio/) 或 [UVTools2](https://armel.github.io/uvtools2/?mode=flash) 刷入：
+
+1. 手台关机 → 按住 PTT + SK1（顶部侧键）→ 开机（进入 DFU 模式）
+2. 浏览器打开 UV Studio / UVTools2
+3. 选择 .bin 文件 → 刷入
+
+### 自行编译
+
+```bash
+./compile-firmware.sh Fusion
+```
+
+也可以直接使用 GitHub Actions 的 `Build Firmware` 工作流：push/PR 到 `main` 后会自动构建 Fusion，并上传 `f4hwn-fusion-cn-firmware` 产物（含 `.bin` / `.hex`）。
+
+---
+
+*该仓库 Fork 自 [armel/uv-k1-k5v3-firmware-custom](https://github.com/armel/uv-k1-k5v3-firmware-custom)，原始工作基于 DualTachyon 的开源固件。*
+
+---
+
 # F4HWN firmware port for the UV-K1 and UV-K5 V3 using the PY32F071 MCU
 
 This repository is a fork of the [F4HWN custom firmware](https://github.com/armel/uv-k5-firmware-custom), who was a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom). It extends the work done for the UV-K5 V1, based on the DP32G030 MCU, and adapts it to the newer UV-K1 and UV-K5 V3 built around the PY32F071 MCU. It is the result of the joint work of [@muzkr](https://github.com/muzkr) and [@armel](https://github.com/armel).

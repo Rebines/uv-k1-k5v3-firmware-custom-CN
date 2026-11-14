@@ -19,6 +19,7 @@
 #include "driver/st7565.h"
 #include "external/printf/printf.h"
 #include "font.h"
+#include "font_cn.h"
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 #include "misc.h"
@@ -51,19 +52,25 @@ void UI_GenerateChannelStringEx(char *pString, const bool bShowPrefix, const uin
 void UI_PrintStringBuffer(const char *pString, uint8_t *buffer, const uint8_t *font)
 {
     const size_t Length = strlen(pString);
-    const unsigned int char_spacing = FONT_SMALL_WIDTH + 1u;
+    unsigned int pos = 1;
     for (size_t i = 0; i < Length; i++) {
-        const unsigned int index = pString[i] - ' ' - 1;
-        if (pString[i] > ' ' && pString[i] < 127) {
-            const uint32_t offset = i * char_spacing + 1;
+        const unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT) {
+            memcpy(buffer + pos, gFontCN_Big[c - FONT_CN_BASE], FONT_CN_WIDTH);
+            pos += FONT_CN_WIDTH + 1u;
+        } else if (c > ' ' && c < 127) {
+            const unsigned int index = c - ' ' - 1;
             uint16_t bit = index * FONT_SMALL_WIDTH * 7u;
 
             for (uint8_t column = 0; column < FONT_SMALL_WIDTH; column++) {
                 const uint16_t byte = bit >> 3;
                 const uint16_t packed = font[byte] | ((uint16_t)font[byte + 1u] << 8);
-                buffer[offset + column] = (packed >> (bit & 7u)) & 0x7Fu;
+                buffer[pos + column] = (packed >> (bit & 7u)) & 0x7Fu;
                 bit += 7u;
             }
+            pos += FONT_SMALL_WIDTH + 1u;
+        } else if (c == ' ') {
+            pos += FONT_SMALL_WIDTH + 1u;
         }
     }
 }
@@ -72,19 +79,43 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
 {
     size_t i;
     size_t Length = strlen(pString);
+    unsigned int totalWidth = 0;
 
-    if (End > Start)
-        Start += (((End - Start) - (Length * Width)) + 1) / 2;
-
+    // Mixed CN/ASCII text has variable width, so centering must sum each glyph.
     for (i = 0; i < Length; i++)
     {
-        const unsigned int ofs   = (unsigned int)Start + (i * Width);
-        if (pString[i] > ' ' && pString[i] < 127)
+        const unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
+            totalWidth += FONT_CN_WIDTH + 1u;
+        else
+            totalWidth += Width;
+    }
+
+    if (End > Start)
+        Start += (((End - Start) - totalWidth) + 1) / 2;
+
+    uint8_t ofs = Start;
+    for (i = 0; i < Length; i++)
+    {
+        const unsigned char c = (unsigned char)pString[i];
+        if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
         {
-            const unsigned int index = pString[i] - ' ' - 1;
+            const unsigned int idx = c - FONT_CN_BASE;
+            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontCN_Big[idx][0], FONT_CN_WIDTH);
+            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontCN_Big[idx][FONT_CN_WIDTH], FONT_CN_WIDTH);
+            ofs += FONT_CN_WIDTH + 1u;
+        }
+        else if (c > ' ' && c < 127)
+        {
+            const unsigned int index = c - ' ' - 1;
             FONT_DrawBigGlyph(index,
                               gFrameBuffer[Line + 0] + ofs,
                               gFrameBuffer[Line + 1] + ofs);
+            ofs += Width;
+        }
+        else if (c == ' ')
+        {
+            ofs += Width;
         }
     }
 }

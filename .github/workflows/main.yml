@@ -3,6 +3,8 @@ name: Build Firmware
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -14,14 +16,14 @@ jobs:
 
     - name: Compile firmware
       run: |
-        chmod +x compile-firmware.sh compile-app.sh
-        ./compile-firmware.sh All
-        ./compile-app.sh All
+        chmod +x compile-firmware.sh
+        ./compile-firmware.sh Fusion
+        mkdir -p compiled-firmware
+        cp build/Fusion/f4hwn.fusion.bin compiled-firmware/
+        cp build/Fusion/f4hwn.fusion.hex compiled-firmware/
 
-    - name: Upload artifacts
+    - name: Upload firmware artifact
       uses: actions/upload-artifact@v4
       with:
-        name: firmware-artifact
-        path: |
-          build/*/*.bin
-          build/Apps/*.app
+        name: f4hwn-fusion-cn-firmware
+        path: compiled-firmware/

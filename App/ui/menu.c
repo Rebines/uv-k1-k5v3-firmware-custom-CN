@@ -30,6 +30,7 @@
 #include "../driver/st7565.h"
 #include "../external/printf/printf.h"
 #include "../font.h"
+#include "../font_cn.h"
 #include "../frequencies.h"
 #include "../helper/battery.h"
 #include "../misc.h"
@@ -201,16 +202,25 @@ const t_menu_item MenuList[] =
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
+static const char _TXP_USER[] = {CN_C7528, CN_C6237, 0};
+static const char _TXP_LOW1[] = {CN_C4F4E, '1', 0};
+static const char _TXP_LOW2[] = {CN_C4F4E, '2', 0};
+static const char _TXP_LOW3[] = {CN_C4F4E, '3', 0};
+static const char _TXP_LOW4[] = {CN_C4F4E, '4', 0};
+static const char _TXP_LOW5[] = {CN_C4F4E, '5', 0};
+static const char _TXP_MID[]  = {CN_C4E2D, 0};
+static const char _TXP_HIGH[] = {CN_C9AD8, 0};
+
 const char* const gSubMenu_TXP[] =
 {
-    "USER",
-    "LOW 1",
-    "LOW 2",
-    "LOW 3",
-    "LOW 4",
-    "LOW 5",
-    "MID",
-    "HIGH"
+    _TXP_USER,
+    _TXP_LOW1,
+    _TXP_LOW2,
+    _TXP_LOW3,
+    _TXP_LOW4,
+    _TXP_LOW5,
+    _TXP_MID,
+    _TXP_HIGH
 };
 
 const char* const gSubMenu_SFT_D[] =
@@ -234,92 +244,133 @@ const char* const gSubMenu_OFF_ON[] =
 
 const char* gSubMenu_NA = "N/A";
 
+static const char _RXMode_0[] = {CN_C4E3B, CN_C5355, 0};
+static const char _RXMode_1[] = {CN_C53CC, CN_C6536, 0};
+static const char _RXMode_2[] = {CN_C8DE8, CN_C6BB5, 0};
+static const char _RXMode_3[] = {CN_C4E3B, CN_C53D1, CN_C53CC, CN_C6536, 0};
+#ifdef ENABLE_FEAT_F4HWN_FULL_WATCH
+static const char _RXMode_4[] = {CN_C5168, CN_C53CC, CN_C54CD, CN_C5E94, 0};
+static const char _RXMode_5[] = {CN_C4E3B, CN_C53D1, CN_C5168, CN_C6536, 0};
+#endif
+
 const char* const gSubMenu_RXMode[] =
 {
-    "MAIN\nONLY",       // TX and RX on main only
-    "DUAL RX\nRESPOND", // Watch both and respond
-    "CROSS\nBAND",      // TX on main, RX on secondary
-    "MAIN TX\nDUAL RX", // always TX on main, but RX on both
+    _RXMode_0,
+    _RXMode_1,
+    _RXMode_2,
+    _RXMode_3,
 #ifdef ENABLE_FEAT_F4HWN_FULL_WATCH
-    "FULL RX\nRESPOND", // Watch A, B and priority channels, then respond on the promoted channel
-    "MAIN TX\nFULL RX"  // Watch all channels, but always transmit on the selected VFO
+    _RXMode_4,
+    _RXMode_5
 #endif
 };
 
 #ifdef ENABLE_VOICE
+    static const char _VOICE_OFF[] = {CN_C5173, 0};
+    static const char _VOICE_CHI[] = {CN_C4E2D, CN_C6587, 0};
+    static const char _VOICE_ENG[] = {CN_C82F1, CN_C6587, 0};
     const char* const gSubMenu_VOICE[] =
     {
-        "OFF",
-        "CHI",
-        "ENG"
+        _VOICE_OFF,
+        _VOICE_CHI,
+        _VOICE_ENG
     };
 #endif
 
+static const char _MDF_0[] = {CN_C9891, CN_C7387, 0};
+static const char _MDF_1[] = {CN_C4FE1, CN_C9053, CN_C53F7, 0};
+static const char _MDF_2[] = {CN_C540D, CN_C79F0, 0};
+static const char _MDF_3[] = {CN_C540D, '+', CN_C9891, 0};
+
 const char* const gSubMenu_MDF[] =
 {
-    "FREQ",
-    "CHANNEL\nNUMBER",
-    "NAME",
-    "NAME\n+\nFREQ"
+    _MDF_0,
+    _MDF_1,
+    _MDF_2,
+    _MDF_3
 };
 
 #ifdef ENABLE_DTMF_CALLING
+static const char _D_RSP_0[] = {CN_C65E0, CN_C54CD, CN_C5E94, 0};
+static const char _D_RSP_1[] = {CN_C54CD, CN_C94C3, 0};
+static const char _D_RSP_2[] = {CN_C56DE, CN_C590D, 0};
+static const char _D_RSP_3[] = {CN_C4E24, CN_C8005, 0};
 const char* const gSubMenu_D_RSP[] =
 {
-    "DO\nNOTHING",
-    "RING",
-    "REPLY",
-    "BOTH"
+    _D_RSP_0,
+    _D_RSP_1,
+    _D_RSP_2,
+    _D_RSP_3
 };
 #endif
 
+static const char _PTT_ID_0[] = {CN_C5173, 0};
+static const char _PTT_ID_1[] = {CN_C4E0A, CN_C884C, CN_C7801, 0};
+static const char _PTT_ID_2[] = {CN_C4E0B, CN_C884C, CN_C7801, 0};
+static const char _PTT_ID_3[] = {CN_C4E0A, CN_C4E0B, CN_C7801, 0};
+static const char _PTT_ID_4[] = {CN_C963F, CN_C6CE2, CN_C7F57, 0};
+
 const char* const gSubMenu_PTT_ID[] =
 {
-    "OFF",
-    "UP CODE",
-    "DOWN CODE",
-    "UP+DOWN\nCODE",
-    "APOLLO\nQUINDAR"
+    _PTT_ID_0,
+    _PTT_ID_1,
+    _PTT_ID_2,
+    _PTT_ID_3,
+    _PTT_ID_4
 };
+
+static const char _PONMSG_ALL[]     = {CN_C5168, CN_C90E8, 0};
+static const char _PONMSG_SOUND[]   = {CN_C58F0, CN_C97F3, 0};
+static const char _PONMSG_MESSAGE[] = {CN_C4FE1, CN_C606F, 0};
+static const char _PONMSG_VOLTAGE[] = {CN_C7535, CN_C538B, 0};
+static const char _PONMSG_LOGO[]    = {CN_C56FE, CN_C6807, 0};
+static const char _PONMSG_NONE[]    = {CN_C65E0, 0};
 
 const char* const gSubMenu_PONMSG[] =
 {
 #ifdef ENABLE_FEAT_F4HWN
-    "ALL",
-    "SOUND",
+    _PONMSG_ALL,
+    _PONMSG_SOUND,
 #else
-    "FULL",
+    _PONMSG_ALL,
 #endif
-    "MESSAGE",
-    "VOLTAGE",
+    _PONMSG_MESSAGE,
+    _PONMSG_VOLTAGE,
 #ifdef ENABLE_FEAT_F4HWN_LOGO
-    "LOGO",
+    _PONMSG_LOGO,
 #endif
-    "NONE"
+    _PONMSG_NONE
 };
 
 #if defined(ENABLE_FEAT_F4HWN) && defined(ENABLE_FEAT_F4HWN_LOGO_SAV)
+static const char _SET_SAV_OFF[]    = {CN_C5173, 0};
+static const char _SET_SAV_MATRIX[] = {CN_C9ED1, CN_C5BA2, CN_C5E1D, CN_C56FD, 0};
 const char* const gSubMenu_SET_SAV[] =
 {
-    "OFF",
+    _SET_SAV_OFF,
     "LOGO",
     "LOGO+",
-    "MATRIX"
+    _SET_SAV_MATRIX
 };
 #endif
 
+static const char _ROGER_OFF[] = {CN_C5173, 0};
 const char* const gSubMenu_ROGER[] =
 {
-    "OFF",
+    _ROGER_OFF,
     "ROGER",
     "MDC"
 };
 
+static const char _RESET_ALL[] = {CN_C5168, CN_C90E8, 0};
 const char* const gSubMenu_RESET[] =
 {
     "VFO",
-    "ALL"
+    _RESET_ALL
 };
+
+static const char _FLock_DisableAll[] = {CN_C5168, CN_C90E8, '\n', CN_C7981, CN_C7528, 0};
+static const char _FLock_UnlockAll[]  = {CN_C5168, CN_C90E8, '\n', CN_C89E3, CN_C9501, 0};
 
 const char* const gSubMenu_F_LOCK[] =
 {
@@ -338,23 +389,32 @@ const char* const gSubMenu_F_LOCK[] =
 #ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
     "GMRS\nFRS\nMURS",
 #endif
-    "DISABLE\nALL",
-    "UNLOCK\nALL",
+    _FLock_DisableAll,
+    _FLock_UnlockAll
 };
+
+static const char _RX_TX_OFF[] = {CN_C5173, 0};
+static const char _RX_TX_TX[]  = {CN_C53D1, CN_C5C04, 0};
+static const char _RX_TX_RX[]  = {CN_C63A5, CN_C6536, 0};
+static const char _RX_TX_BOTH[] = {CN_C6536, CN_C53D1, 0};
 
 const char* const gSubMenu_RX_TX[] =
 {
-    "OFF",
-    "TX",
-    "RX",
-    "TX/RX"
+    _RX_TX_OFF,
+    _RX_TX_TX,
+    _RX_TX_RX,
+    _RX_TX_BOTH
 };
+
+static const char _BAT_TXT_NONE[]    = {CN_C65E0, 0};
+static const char _BAT_TXT_VOLTAGE[] = {CN_C7535, CN_C538B, 0};
+static const char _BAT_TXT_PERCENT[] = {CN_C767E, CN_C5206, CN_C6BD4, 0};
 
 const char* const gSubMenu_BAT_TXT[] =
 {
-    "NONE",
-    "VOLTAGE",
-    "PERCENT"
+    _BAT_TXT_NONE,
+    _BAT_TXT_VOLTAGE,
+    _BAT_TXT_PERCENT
 };
 
 const char* const gSubMenu_BATTYP[] =
@@ -366,10 +426,13 @@ const char* const gSubMenu_BATTYP[] =
     "2500mAh K1"
 };
 
+static const char _SET_NAV_LR[] = {CN_C5DE6, CN_C53F3, 0};
+static const char _SET_NAV_UD[] = {CN_C4E0A, CN_C4E0B, 0};
+
 const char* const gSubMenu_SET_NAV[] =
 {
-    "LEFT\nRIGHT\nUV-K1",
-    "UP\nDOWN\nUV-K5(8)",
+    _SET_NAV_LR,
+    _SET_NAV_UD
 };
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -401,65 +464,89 @@ const char* const gSubMenu_SCRAMBLER[] =
         "5"
     };
 
+    static const char _SET_PTT_CLASSIC[] = {CN_C7ECF, CN_C5178, 0};
+    static const char _SET_PTT_ONEPUSH[] = {CN_C5355, CN_C6309, 0};
     const char* const gSubMenu_SET_PTT[] =
     {
-        "CLASSIC",
-        "ONEPUSH"
+        _SET_PTT_CLASSIC,
+        _SET_PTT_ONEPUSH
     };
 
-    const char* const gSubMenu_SET_TOT[] =  
+    static const char _SET_TOT_OFF[]    = {CN_C5173, 0};
+    static const char _SET_TOT_SOUND[]  = {CN_C58F0, CN_C97F3, 0};
+    static const char _SET_TOT_VISUAL[] = {CN_C89C6, CN_C89C9, 0};
+    static const char _SET_TOT_ALL[]    = {CN_C5168, CN_C90E8, 0};
+    const char* const gSubMenu_SET_TOT[] =
     {
-        "OFF",
-        "SOUND",
-        "VISUAL",
-        "ALL"
+        _SET_TOT_OFF,
+        _SET_TOT_SOUND,
+        _SET_TOT_VISUAL,
+        _SET_TOT_ALL
     };
 
+    static const char _SET_LCK_KEYS[]        = {CN_C6309, CN_C952E, 0};
+    static const char _SET_LCK_ACTIONS[]     = {CN_C952E, '+', CN_C64CD, CN_C4F5C, 0};
+    static const char _SET_LCK_PTT[]         = {CN_C952E, '+', 'P', 'T', 'T', 0};
+    static const char _SET_LCK_ACTIONS_PTT[] = {CN_C952E, '+', CN_C64CD, CN_C4F5C, '+', 'P', 'T', 'T', 0};
     const char* const gSubMenu_SET_LCK[] =
     {
-        "KEYS",
-        "KEYS\nACTIONS",
-        "KEYS\nPTT",
-        "KEYS\nACTIONS\nPTT"
+        _SET_LCK_KEYS,
+        _SET_LCK_ACTIONS,
+        _SET_LCK_PTT,
+        _SET_LCK_ACTIONS_PTT
     };
 
+    static const char _SET_MET_TINY[]    = {CN_C8FF7, CN_C4F60, 0};
+    static const char _SET_MET_CLASSIC[] = {CN_C7ECF, CN_C5178, 0};
     const char* const gSubMenu_SET_MET[] =
     {
-        "TINY",
-        "CLASSIC"
+        _SET_MET_TINY,
+        _SET_MET_CLASSIC
     };
 
     #ifdef ENABLE_FEAT_F4HWN_SCAN_FASTER
+        static const char _SET_SCN_NORMAL[] = {CN_C666E, CN_C901A, 0};
+        static const char _SET_SCN_FAST[]   = {CN_C5FEB, CN_C901F, 0};
         const char* const gSubMenu_SET_SCN[] =
         {
-            "NORMAL",
-            "FAST"
+            _SET_SCN_NORMAL,
+            _SET_SCN_FAST
         };
     #endif
 
     #ifdef ENABLE_FEAT_F4HWN_AUDIO
+        static const char _SET_AUD_FM_FLAT[]  = {CN_C5E73, CN_C5766, 0};
+        static const char _SET_AUD_FM_CLEAN[] = {CN_C6E05, CN_C6670, 0};
+        static const char _SET_AUD_FM_MID[]   = {CN_C4E2D, 0};
+        static const char _SET_AUD_FM_BOOST[] = {CN_C589E, CN_C5F3A, 0};
+        static const char _SET_AUD_FM_MAX[]   = {CN_C6700, CN_C5927, 0};
         const char* const gSubMenu_SET_AUD_FM[] =
         {
-            "FLAT",
-            "CLEAN",
-            "MID",
-            "BOOST",
-            "MAX"
+            _SET_AUD_FM_FLAT,
+            _SET_AUD_FM_CLEAN,
+            _SET_AUD_FM_MID,
+            _SET_AUD_FM_BOOST,
+            _SET_AUD_FM_MAX
         };
 
+        static const char _SET_AUD_AM_SHARP[] = {CN_C5C16, CN_C9510, 0};
+        static const char _SET_AUD_AM_STOCK[] = {CN_C539F, CN_C59CB, 0};
+        static const char _SET_AUD_AM_OPEN[]  = {CN_C5F00, CN_C9614, 0};
         const char* const gSubMenu_SET_AUD_AM[] =
         {
-            "SHARP",
-            "STOCK",
-            "OPEN"
+            _SET_AUD_AM_SHARP,
+            _SET_AUD_AM_STOCK,
+            _SET_AUD_AM_OPEN
         };
     #endif
 
     #ifdef ENABLE_FEAT_F4HWN_NARROWER
+        static const char _SET_NFM_NARROW[]   = {CN_C7A84, CN_C5E26, 0};
+        static const char _SET_NFM_NARROWER[] = {CN_C8D85, CN_C7A84, 0};
         const char* const gSubMenu_SET_NFM[] =
         {
-            "NARROW",
-            "NARROWER"
+            _SET_NFM_NARROW,
+            _SET_NFM_NARROWER
         };
     #endif
 
@@ -475,32 +562,57 @@ const char* const gSubMenu_SCRAMBLER[] =
     #endif
 #endif
 
+// Side-function labels. The macro below also derives the availability mask,
+// so every ACTION_OPT_* entry must appear exactly once.
+static const char _SIDE_NONE[]        = {CN_C65E0, 0};
+static const char _SIDE_FLASHLIGHT[]  = {CN_C624B, CN_C7535, 0};
+static const char _SIDE_POWER[]       = {CN_C7535, CN_C6E90, 0};
+static const char _SIDE_MONITOR[]     = {CN_C76D1, CN_C542C, 0};
+static const char _SIDE_SCAN[]        = {CN_C626B, CN_C63CF, 0};
+static const char _SIDE_VOX[]         = {CN_C58F0, CN_C63A7, 0};
+static const char _SIDE_FM[]          = {CN_C6536, CN_C97F3, CN_C673A, 0};
+static const char _SIDE_KEYLOCK[]     = {CN_C9501, '\n', CN_C952E, CN_C76D8, 0};
+static const char _SIDE_VFOMR[]       = {'V', 'F', 'O', '\n', CN_C4FE1, CN_C9053, 0};
+static const char _SIDE_MODE[]        = {CN_C6A21, CN_C5F0F, 0};
+static const char _SIDE_RXMODE[]      = {CN_C63A5, CN_C6536, 0};
+static const char _SIDE_MAINONLY[]    = {CN_C4EC5, CN_C4E3B, CN_C9891, 0};
+static const char _SIDE_WN[]          = {CN_C5BBD, CN_C5E26, '\n', CN_C7A84, CN_C5E26, 0};
+static const char _SIDE_MUTE[]        = {CN_C9759, CN_C97F3, 0};
+static const char _SIDE_RXA[]         = {CN_C97F3, CN_C9891, 0};
+static const char _SIDE_POWERHIGH[]   = {CN_C9AD8, CN_C529F, CN_C7387, 0};
+static const char _SIDE_REMOFFSET[]   = {CN_C53BB, CN_C9664, '\n', CN_C9891, CN_C5DEE, 0};
+static const char _SIDE_BEAM[]        = {CN_C6CE2, CN_C675F, 0};
+static const char _SIDE_RFLOG[]       = {'R', 'F', ' ', CN_C65E5, CN_C5FD7, 0};
+static const char _SIDE_FOXHUNT[]     = {CN_C730E, CN_C72D0, 0};
+static const char _SIDE_BEACON[]      = {CN_C4FE1, CN_C6807, 0};
+static const char _SIDE_TONECALL[]    = {CN_C97F3, CN_C8C03, CN_C547C, CN_C53EB, 0};
+
 #define SIDEFUNCTION_NAMES(X) \
-    X(ACTION_OPT_NONE,           "NONE") \
-    X(ACTION_OPT_FLASHLIGHT,     "FLASH\nLIGHT") \
-    X(ACTION_OPT_POWER,          "POWER") \
-    X(ACTION_OPT_MONITOR,        "MONITOR") \
-    X(ACTION_OPT_SCAN,           "SCAN") \
-    X(ACTION_OPT_VOX,            "VOX") \
-    X(ACTION_OPT_FM,             "FM RADIO") \
+    X(ACTION_OPT_NONE,           _SIDE_NONE) \
+    X(ACTION_OPT_FLASHLIGHT,     _SIDE_FLASHLIGHT) \
+    X(ACTION_OPT_POWER,          _SIDE_POWER) \
+    X(ACTION_OPT_MONITOR,        _SIDE_MONITOR) \
+    X(ACTION_OPT_SCAN,           _SIDE_SCAN) \
+    X(ACTION_OPT_VOX,            _SIDE_VOX) \
+    X(ACTION_OPT_FM,             _SIDE_FM) \
     X(ACTION_OPT_1750,           "1750Hz") \
-    X(ACTION_OPT_KEYLOCK,        "LOCK\nKEYPAD") \
+    X(ACTION_OPT_KEYLOCK,        _SIDE_KEYLOCK) \
     X(ACTION_OPT_A_B,            "VFO A\nVFO B") \
-    X(ACTION_OPT_VFO_MR,         "VFO\nMEM") \
-    X(ACTION_OPT_SWITCH_DEMODUL, "MODE") \
-    X(ACTION_OPT_RXMODE,         "RX MODE") \
-    X(ACTION_OPT_MAINONLY,       "MAIN ONLY") \
+    X(ACTION_OPT_VFO_MR,         _SIDE_VFOMR) \
+    X(ACTION_OPT_SWITCH_DEMODUL, _SIDE_MODE) \
+    X(ACTION_OPT_RXMODE,         _SIDE_RXMODE) \
+    X(ACTION_OPT_MAINONLY,       _SIDE_MAINONLY) \
     X(ACTION_OPT_PTT,            "PTT") \
-    X(ACTION_OPT_WN,             "WIDE\nNARROW") \
-    X(ACTION_OPT_MUTE,           "MUTE") \
-    X(ACTION_OPT_RXA,            "RxA") \
-    X(ACTION_OPT_RXTX_LOG,       "RF LOG") \
-    X(ACTION_OPT_BEAM,           "BEAM") \
-    X(ACTION_OPT_POWER_HIGH,     "POWER\nHIGH") \
-    X(ACTION_OPT_REMOVE_OFFSET,  "REMOVE\nOFFSET") \
-    X(ACTION_OPT_FOXHUNT,        "FOX HUNT") \
-    X(ACTION_OPT_BEACON,         "BEACON") \
-    X(ACTION_OPT_TONECALL,       "TONE CALL")
+    X(ACTION_OPT_WN,             _SIDE_WN) \
+    X(ACTION_OPT_MUTE,           _SIDE_MUTE) \
+    X(ACTION_OPT_RXA,            _SIDE_RXA) \
+    X(ACTION_OPT_RXTX_LOG,       _SIDE_RFLOG) \
+    X(ACTION_OPT_BEAM,           _SIDE_BEAM) \
+    X(ACTION_OPT_POWER_HIGH,     _SIDE_POWERHIGH) \
+    X(ACTION_OPT_REMOVE_OFFSET,  _SIDE_REMOFFSET) \
+    X(ACTION_OPT_FOXHUNT,        _SIDE_FOXHUNT) \
+    X(ACTION_OPT_BEACON,         _SIDE_BEACON) \
+    X(ACTION_OPT_TONECALL,       _SIDE_TONECALL)
 
 #define SIDEFUNCTION_NAME_ENTRY(action, name) [action] = name,
 const char *const gSubMenu_SIDEFUNCTIONS[ACTION_OPT_LEN] =

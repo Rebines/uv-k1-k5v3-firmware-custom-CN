@@ -1427,7 +1427,7 @@ static void UI_PrintScanRangeCss(char *String, uint8_t LabelX, uint8_t ValueX, u
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN_ACTION_PICKER
-static void UI_PrintActionPickerLabel(uint8_t index, uint8_t line, bool big)
+static void UI_PrintActionPickerLabel(uint8_t index, uint8_t line)
 {
     char label[20];
     strcpy(label, gSubMenu_SIDEFUNCTIONS[index]);
@@ -1436,10 +1436,8 @@ static void UI_PrintActionPickerLabel(uint8_t index, uint8_t line, bool big)
     if (newline != NULL)
         *newline = ' ';
 
-    if (big)
-        UI_PrintString(label, 0, LCD_WIDTH, line, 8);
-    else
-        UI_PrintStringSmallNormal(label, 0, LCD_WIDTH, line);
+    // Always use the big font: Chinese labels need two framebuffer rows.
+    UI_PrintString(label, 0, LCD_WIDTH, line, 8);
 }
 #endif
 
@@ -1477,9 +1475,9 @@ void UI_DisplayMain(void)
         if (next >= SIDEFUNCTION_COUNT)
             next = 1;
 
-        UI_PrintActionPickerLabel(previous, 1, false);
-        UI_PrintActionPickerLabel(selection, 2, true);
-        UI_PrintActionPickerLabel(next, 4, false);
+        UI_PrintActionPickerLabel(previous, 0);
+        UI_PrintActionPickerLabel(selection, 2);
+        UI_PrintActionPickerLabel(next, 4);
         if (!ACTION_IsAvailable(selection))
             UI_PrintStringSmallNormalInverse("N/A", 53, 0, 6);
         ST7565_BlitFullScreen();
