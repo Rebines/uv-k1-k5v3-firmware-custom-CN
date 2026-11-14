@@ -244,13 +244,13 @@ const char* const gSubMenu_OFF_ON[] =
 
 const char* gSubMenu_NA = "N/A";
 
-static const char _RXMode_0[] = {CN_C4E3B, CN_C5355, 0};
-static const char _RXMode_1[] = {CN_C53CC, CN_C6536, 0};
-static const char _RXMode_2[] = {CN_C8DE8, CN_C6BB5, 0};
-static const char _RXMode_3[] = {CN_C4E3B, CN_C53D1, CN_C53CC, CN_C6536, 0};
+static const char _RXMode_0[] = {CN_C4EC5, CN_C4E3B, CN_C9891, 0};
+static const char _RXMode_1[] = {CN_C53CC, CN_C6536, CN_C54CD, CN_C5E94, 0};
+static const char _RXMode_2[] = {CN_C4E3B, CN_C53D1, CN_C526F, CN_C6536, 0};
+static const char _RXMode_3[] = {CN_C53CC, CN_C6536, CN_C4E3B, CN_C53D1, 0};
 #ifdef ENABLE_FEAT_F4HWN_FULL_WATCH
-static const char _RXMode_4[] = {CN_C5168, CN_C53CC, CN_C54CD, CN_C5E94, 0};
-static const char _RXMode_5[] = {CN_C4E3B, CN_C53D1, CN_C5168, CN_C6536, 0};
+static const char _RXMode_4[] = {CN_C5168, CN_C6536, CN_C54CD, CN_C5E94, 0};
+static const char _RXMode_5[] = {CN_C5168, CN_C6536, CN_C4E3B, CN_C53D1, 0};
 #endif
 
 const char* const gSubMenu_RXMode[] =
