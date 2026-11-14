@@ -46,7 +46,7 @@
 
 从 [Release](https://github.com/Rebines/uv-k1-k5v3-firmware-custom-CN/releases/latest) 下载 `f4hwn.fusion.bin`，使用 [UV Studio](https://armel.github.io/uvstudio/) 或 [UVTools2](https://armel.github.io/uvtools2/?mode=flash) 刷入：
 
-1. 手台关机 → 按住 PTT + SK1（顶部侧键）→ 开机（进入 DFU 模式）
+1. 手台关机 → 按住 PTT → 开机（进入 DFU 模式）
 2. 浏览器打开 UV Studio / UVTools2
 3. 选择 .bin 文件 → 刷入
 
