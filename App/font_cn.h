@@ -155,7 +155,7 @@ extern const uint8_t gFontCN_Big[128][32];
 #define CN_C6E90  ((char)(0x80 + 105))
 #define CN_C76D1  ((char)(0x80 + 106))
 #define CN_C76D8  ((char)(0x80 + 107))
-#define CN_C7B52  ((char)(0x80 + 108))
+#define CN_C526F  ((char)(0x80 + 108))
 #define CN_C8B66  ((char)(0x80 + 109))
 #define CN_C9664  ((char)(0x80 + 110))
 #define CN_C9759  ((char)(0x80 + 111))
