@@ -16,8 +16,8 @@ jobs:
 
     - name: Compile firmware
       run: |
-        chmod +x compile-with-docker.sh
-        ./compile-with-docker.sh Fusion
+        chmod +x compile-firmware.sh
+        ./compile-firmware.sh Fusion
         mkdir -p compiled-firmware
         cp build/Fusion/f4hwn.fusion.bin compiled-firmware/
         cp build/Fusion/f4hwn.fusion.hex compiled-firmware/

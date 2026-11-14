@@ -27,6 +27,9 @@
  *
  * 上述四条任意一条没做到 → 编出来字形不对 → 白等 3 轮 CI。
  * 不想再栽第五回的话，老老实实按步骤来。
+ *
+ * ⚠️ 单字节编码上限：0x80..0xFF 最多 128 字（FONT_CN_COUNT <= 128）。
+ *    字库已满时，先复用/删除未使用的旧字，禁止把索引加到 128 以上！
  * ═══════════════════════════════════════════════════════════════
  */
 
@@ -35,10 +38,14 @@
 #include <stdint.h>
 
 #define FONT_CN_WIDTH  16
-#define FONT_CN_COUNT 120
+#define FONT_CN_COUNT 128
 #define FONT_CN_BASE 0x80
 
-extern const uint8_t gFontCN_Big[120][32];
+#if (FONT_CN_BASE + FONT_CN_COUNT) > 256
+#error "FONT_CN_COUNT exceeds the single-byte 0x80..0xFF encoding range"
+#endif
+
+extern const uint8_t gFontCN_Big[128][32];
 
 #define CN_C4E0A  ((char)(0x80 + 0))
 #define CN_C4E0B  ((char)(0x80 + 1))
@@ -52,9 +59,9 @@ extern const uint8_t gFontCN_Big[120][32];
 #define CN_C5173  ((char)(0x80 + 9))
 #define CN_C5178  ((char)(0x80 + 10))
 #define CN_C5206  ((char)(0x80 + 11))
-#define CN_C5229  ((char)(0x80 + 12))
+#define CN_C5E94  ((char)(0x80 + 12))
 #define CN_C5355  ((char)(0x80 + 13))
-#define CN_C5382  ((char)(0x80 + 14))
+#define CN_C82F1  ((char)(0x80 + 14))
 #define CN_C538B  ((char)(0x80 + 15))
 #define CN_C539F  ((char)(0x80 + 16))
 #define CN_C53CC  ((char)(0x80 + 17))
@@ -160,5 +167,14 @@ extern const uint8_t gFontCN_Big[120][32];
 #define CN_C64CD  ((char)(0x80 + 117))
 #define CN_C4F5C  ((char)(0x80 + 118))
 #define CN_C65E5  ((char)(0x80 + 119))
+
+#define CN_C730E  ((char)(0x80 + 120))
+#define CN_C72D0  ((char)(0x80 + 121))
+#define CN_C8C03  ((char)(0x80 + 122))
+#define CN_C547C  ((char)(0x80 + 123))
+#define CN_C53EB  ((char)(0x80 + 124))
+#define CN_C5C16  ((char)(0x80 + 125))
+#define CN_C59CB  ((char)(0x80 + 126))
+#define CN_C9614  ((char)(0x80 + 127))
 
 #endif

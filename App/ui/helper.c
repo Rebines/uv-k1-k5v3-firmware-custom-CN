@@ -26,25 +26,6 @@
 #include "settings.h"
 
 
-void UI_GenerateChannelString(char *pString, const uint16_t Channel)
-{
-    unsigned int i;
-
-    if (gInputBoxIndex == 0)
-    {
-        sprintf(pString, "CH-%02u", Channel + 1);
-        return;
-    }
-
-    pString[0] = 'C';
-    pString[1] = 'H';
-    pString[2] = '-';
-    for (i = 0; i < 2; i++)
-        pString[i + 3] = (gInputBox[i] == 10) ? '-' : gInputBox[i] + '0';
-
-    pString[5] = 0;
-}
-
 void UI_GenerateChannelStringEx(char *pString, const bool bShowPrefix, const uint16_t ChannelNumber)
 {
     if (gInputBoxIndex > 0) {
@@ -68,22 +49,28 @@ void UI_GenerateChannelStringEx(char *pString, const bool bShowPrefix, const uin
     }
 }
 
-void UI_PrintStringBuffer(const char *pString, uint8_t * buffer, uint32_t char_width, const uint8_t *font)
+void UI_PrintStringBuffer(const char *pString, uint8_t *buffer, const uint8_t *font)
 {
     const size_t Length = strlen(pString);
-    const unsigned int char_spacing = char_width + 1;
     unsigned int pos = 1;
     for (size_t i = 0; i < Length; i++) {
-        unsigned char c = (unsigned char)pString[i];
+        const unsigned char c = (unsigned char)pString[i];
         if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT) {
             memcpy(buffer + pos, gFontCN_Big[c - FONT_CN_BASE], FONT_CN_WIDTH);
-            pos += FONT_CN_WIDTH + 1;
+            pos += FONT_CN_WIDTH + 1u;
         } else if (c > ' ' && c < 127) {
             const unsigned int index = c - ' ' - 1;
-            memcpy(buffer + pos, font + index * char_width, char_width);
-            pos += char_spacing;
+            uint16_t bit = index * FONT_SMALL_WIDTH * 7u;
+
+            for (uint8_t column = 0; column < FONT_SMALL_WIDTH; column++) {
+                const uint16_t byte = bit >> 3;
+                const uint16_t packed = font[byte] | ((uint16_t)font[byte + 1u] << 8);
+                buffer[pos + column] = (packed >> (bit & 7u)) & 0x7Fu;
+                bit += 7u;
+            }
+            pos += FONT_SMALL_WIDTH + 1u;
         } else if (c == ' ') {
-            pos += char_spacing;
+            pos += FONT_SMALL_WIDTH + 1u;
         }
     }
 }
@@ -92,13 +79,14 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
 {
     size_t i;
     size_t Length = strlen(pString);
-    uint8_t totalWidth = 0;
+    unsigned int totalWidth = 0;
 
-    // Calculate total width (variable for mixed CN/ASCII)
-    for (i = 0; i < Length; i++) {
-        unsigned char c = (unsigned char)pString[i];
+    // Mixed CN/ASCII text has variable width, so centering must sum each glyph.
+    for (i = 0; i < Length; i++)
+    {
+        const unsigned char c = (unsigned char)pString[i];
         if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
-            totalWidth += FONT_CN_WIDTH + 1;
+            totalWidth += FONT_CN_WIDTH + 1u;
         else
             totalWidth += Width;
     }
@@ -109,19 +97,20 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
     uint8_t ofs = Start;
     for (i = 0; i < Length; i++)
     {
-        unsigned char c = (unsigned char)pString[i];
+        const unsigned char c = (unsigned char)pString[i];
         if (c >= FONT_CN_BASE && c < FONT_CN_BASE + FONT_CN_COUNT)
         {
-            unsigned int idx = c - FONT_CN_BASE;
+            const unsigned int idx = c - FONT_CN_BASE;
             memcpy(gFrameBuffer[Line + 0] + ofs, &gFontCN_Big[idx][0], FONT_CN_WIDTH);
             memcpy(gFrameBuffer[Line + 1] + ofs, &gFontCN_Big[idx][FONT_CN_WIDTH], FONT_CN_WIDTH);
-            ofs += FONT_CN_WIDTH + 1;
+            ofs += FONT_CN_WIDTH + 1u;
         }
         else if (c > ' ' && c < 127)
         {
             const unsigned int index = c - ' ' - 1;
-            memcpy(gFrameBuffer[Line + 0] + ofs, &gFontBig[index][0], 7);
-            memcpy(gFrameBuffer[Line + 1] + ofs, &gFontBig[index][7], 7);
+            FONT_DrawBigGlyph(index,
+                              gFrameBuffer[Line + 0] + ofs,
+                              gFrameBuffer[Line + 1] + ofs);
             ofs += Width;
         }
         else if (c == ' ')
@@ -131,22 +120,22 @@ void UI_PrintString(const char *pString, uint8_t Start, uint8_t End, uint8_t Lin
     }
 }
 
-void UI_PrintStringSmall(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, uint8_t char_width, const uint8_t *font)
+void UI_PrintStringSmall(const char *pString, uint8_t Start, uint8_t End, uint8_t Line, const uint8_t *font)
 {
     const size_t Length = strlen(pString);
-    const unsigned int char_spacing = char_width + 1;
+    const unsigned int char_spacing = FONT_SMALL_WIDTH + 1u;
 
     if (End > Start) {
         Start += (((End - Start) - Length * char_spacing) + 1) / 2;
     }
 
-    UI_PrintStringBuffer(pString, gFrameBuffer[Line] + Start, char_width, font);
+    UI_PrintStringBuffer(pString, gFrameBuffer[Line] + Start, font);
 }
 
 
 void UI_PrintStringSmallNormal(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
 {
-    UI_PrintStringSmall(pString, Start, End, Line, ARRAY_SIZE(gFontSmall[0]), (const uint8_t *)gFontSmall);
+    UI_PrintStringSmall(pString, Start, End, Line, gFontSmallPacked);
 }
 
 void UI_PrintStringSmallNormalInverse(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
@@ -181,31 +170,27 @@ void UI_PrintStringSmallNormalInverse(const char *pString, uint8_t Start, uint8_
 void UI_PrintStringSmallBold(const char *pString, uint8_t Start, uint8_t End, uint8_t Line)
 {
 #ifdef ENABLE_SMALL_BOLD
-    const uint8_t *font = (uint8_t *)gFontSmallBold;
-    const uint8_t char_width = ARRAY_SIZE(gFontSmallBold[0]);
+    const uint8_t *font = gFontSmallBoldPacked;
 #else
-    const uint8_t *font = (uint8_t *)gFontSmall;
-    const uint8_t char_width = ARRAY_SIZE(gFontSmall[0]);
+    const uint8_t *font = gFontSmallPacked;
 #endif
 
-    UI_PrintStringSmall(pString, Start, End, Line, char_width, font);
+    UI_PrintStringSmall(pString, Start, End, Line, font);
 }
 
 void UI_PrintStringSmallBufferNormal(const char *pString, uint8_t * buffer)
 {
-    UI_PrintStringBuffer(pString, buffer, ARRAY_SIZE(gFontSmall[0]), (uint8_t *)gFontSmall);
+    UI_PrintStringBuffer(pString, buffer, gFontSmallPacked);
 }
 
 void UI_PrintStringSmallBufferBold(const char *pString, uint8_t * buffer)
 {
 #ifdef ENABLE_SMALL_BOLD
-    const uint8_t *font = (uint8_t *)gFontSmallBold;
-    const uint8_t char_width = ARRAY_SIZE(gFontSmallBold[0]);
+    const uint8_t *font = gFontSmallBoldPacked;
 #else
-    const uint8_t *font = (uint8_t *)gFontSmall;
-    const uint8_t char_width = ARRAY_SIZE(gFontSmall[0]);
+    const uint8_t *font = gFontSmallPacked;
 #endif
-    UI_PrintStringBuffer(pString, buffer, char_width, font);
+    UI_PrintStringBuffer(pString, buffer, font);
 }
 
 void UI_DisplayFrequency(const char *string, uint8_t X, uint8_t Y, bool center)
@@ -452,12 +437,30 @@ void UI_DisplayPopup(const char *string)
     UI_PrintStringSmallNormal("Press EXIT", 9, 118, 6);
 }
 
-void UI_DisplayClear()
+void UI_DisplayClear(void)
 {
     memset(gFrameBuffer, 0, sizeof(gFrameBuffer));
 }
 
-void UI_StatusClear()
+void UI_StatusClear(void)
 {
     memset(gStatusLine, 0, sizeof(gStatusLine));
 }
+
+#if defined(ENABLE_FEAT_F4HWN_MULTIBOOT) || defined(ENABLE_FEAT_F4HWN_OVERLAY_APPS)
+/* Shared bottom row for the Apps and Multiboot selectors. The EXIT action
+ * ends at x=124; both key capsules and labels keep their original positions. */
+void UI_DrawMenuKeyHints(const char *act_menu, const char *act_exit)
+{
+    const uint8_t sp = 6u;
+    const uint8_t ae = (uint8_t)strlen(act_exit);
+    const uint8_t xm = 4u;
+    const uint8_t xe = (uint8_t)(124u - ae * 4u - sp - 16u);
+
+    GUI_DisplaySmallestInverse("MENU", xm, 6, false, true, (uint8_t)(xm + 16u));
+    GUI_DisplaySmallest(act_menu, (uint8_t)(xm + 16u + sp), 49, false, true);
+
+    GUI_DisplaySmallestInverse("EXIT", xe, 6, false, true, (uint8_t)(xe + 16u));
+    GUI_DisplaySmallest(act_exit, (uint8_t)(xe + 16u + sp), 49, false, true);
+}
+#endif

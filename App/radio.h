@@ -50,7 +50,6 @@ enum VfoState_t
     VFO_STATE_BAT_LOW,
     VFO_STATE_TX_DISABLE,
     VFO_STATE_TIMEOUT,
-    VFO_STATE_ALARM,
     VFO_STATE_VOLTAGE_HIGH,
     _VFO_STATE_LAST_ELEMENT
 };
@@ -149,8 +148,13 @@ extern DCS_CodeType_t gCurrentCodeType;
 
 extern VfoState_t     VfoState[2];
 
+// Human-readable label per VfoState_t (defined in ui/main.c), e.g. "TX DISABLE".
+extern const char *const VfoStateStr[];
+
 bool     RADIO_CheckValidList(uint8_t scanList);
+uint8_t  RADIO_GetAdjacentScanList(uint8_t scanList, int8_t direction);
 void     RADIO_NextValidList(int8_t direction);
+bool     RADIO_IsChannelInScanList(uint8_t channelScanList, uint8_t scanList);
 bool     RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanList);
 uint16_t RADIO_FindNextChannel(uint16_t ChNum, int8_t Direction, bool bCheckScanList, uint8_t RadioNum);
 void     RADIO_InitInfo(VFO_Info_t *pInfo, const uint16_t ChannelSave, const uint32_t Frequency);
@@ -165,6 +169,7 @@ void     RADIO_SetupRegisters(bool switchToForeground);
 #endif
 BK4819_FilterBandwidth_t RADIO_GetAMFilterBandwidth(const VFO_Info_t *pVfo);
 void     RADIO_SetTxParameters(void);
+void     RADIO_PrepareTx(void);   /* same setup, no FM waits, PA left off */
 void     RADIO_SetupAGC(bool listeningAM, bool disable);
 void     RADIO_SetModulation(ModulationMode_t modulation);
 void     RADIO_SetVfoState(VfoState_t State);
